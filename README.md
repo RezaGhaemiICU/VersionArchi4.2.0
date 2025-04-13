@@ -1,5 +1,8 @@
 # AiCUnet – KI-gestützte Architekturplattform
 
+FÜR GENAUERE INFORMATIONEN UNBEDINGT DIE INHALTE VON docs/ FOLDER ZU LESEN! 
+README IST NICHT UPDATE
+
 > Eine modulare, skalierbare und automatisierte Architektur für HR-Tech & Global Mobility Services als Herz des Unternehmens ICUnet Ag.
 
 ---

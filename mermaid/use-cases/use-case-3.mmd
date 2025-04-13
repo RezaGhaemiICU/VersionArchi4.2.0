@@ -1,0 +1,10 @@
+flowchart TD
+  START[Saga Start: Bestellung eingegangen]
+  STEP1[Step 1: Zahlung verarbeiten]
+  STEP2[Step 2: Versand starten]
+  FEHLER[Fehler: Versand fehlgeschlagen]
+  KOMP[Kom­pen­sa­tions­logik: Zahlung zurückbuchen]
+  EVENT[Event: SagaFehlgeschlagen → Logging + Alert]
+
+  START --> STEP1 --> STEP2
+  STEP2 -->|Fehler| FEHLER --> KOMP --> EVENT

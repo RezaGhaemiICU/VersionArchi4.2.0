@@ -1,0 +1,43 @@
+#  Automatisierte CI/CD Pipeline für AiCUnet Dokumete + Mermaid-Diagramme
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ] # Bei jede Push auf main-Branch
+  pull_request:
+    branches: [ main ] # Auch bei Pull Requests in main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Code aus dem Repository klonen
+      - uses: actions/checkout@v2
+
+      # 2. Mermaid-Diagramme validiern & als PNG/SVG generieren
+      - name: Mermaid-Diagramme generieren
+        run: |
+          npx -p @mermaid-js/mermaid-cli mmdc -i ./mermaid/*.mmd -o ./mermaid/output
+        # Achtung: Ordnerstruktur "./mermaid/" muss korrekt sein
+
+      # 3. Markdown-Links prüfen
+      - name: Markdown-Links prüfen
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          folder-path: 'docs/'    # → Falls .md Dateien in /docs 
+
+      # 4. Deployment auf GitHub (optional, z. B. für Doku-Website)
+      - name: Deploy auf GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./        # Root-pfad mit README + output
+          publish_branch: gh-pages
+
+Tipp: Mermaid-Diagramme als SVGs , einfach beim mmdc-Command das Output-Format ändern:
+
+mmdc -i ./mermaid/*.mmd -o ./mermaid/output -t default -b transparent -f svg

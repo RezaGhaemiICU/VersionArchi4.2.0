@@ -1,8 +1,8 @@
-// 📁 Datei: core/saga-runner.ts
+//  Datei: core/saga-runner.ts
 
 /**
- * این ماژول یک پیاده‌سازی ساده از الگوی Saga است.
- * مراحل را یکی‌یکی اجرا می‌کند و در صورت خطا، مراحل قبلی را با Compensation جبران می‌کند.
+ * Das ist eine simple beispiel wo man sieht wie eine Saga runner fuktionieren kann.
+ * der führt Schritte einzeln, und kompensiert im Fehler fall die letzte Schritte mit Compensation.
  */
 
 export interface SagaStep {
@@ -17,7 +17,7 @@ export interface SagaStep {
     for (const step of steps) {
       try {
         await step.action()
-        executedSteps.unshift(step) // برای اجرای جبران به صورت معکوس ذخیره می‌کنیم
+        executedSteps.unshift(step) // Speichert in umgekehrter folge, um eine Kompensation durchzuführen
       } catch (error) {
         console.warn(`Fehler im Schritt '${step.name}':`, error)
         console.log("Starte Compensation...")

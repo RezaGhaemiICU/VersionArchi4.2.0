@@ -1,7 +1,7 @@
 #!/bin/bash
 # generate-diagrams.sh
-# این اسکریپت همه فایل‌های .mmd رو از مسیر mermaid/ می‌گیره و به SVG و PNG تبدیل می‌کنه
-# خروجی‌ها در mermaid/output ذخیره می‌شن
+# diese skript mach .mmd zu svg oder png
+# es wird alles in output gespeichert
 
 INPUT_DIR="./mermaid"
 OUTPUT_DIR="$INPUT_DIR/output"
@@ -12,11 +12,11 @@ for file in "$INPUT_DIR"/*.mmd; do
   filename=$(basename -- "$file")
   name="${filename%.*}"
 
-  echo " در حال تبدیل فایل: $filename"
+  echo "in bearbeitung : $filename"
 
   npx @mermaid-js/mermaid-cli -i "$file" -o "$OUTPUT_DIR/$name.svg"
   npx @mermaid-js/mermaid-cli -i "$file" -o "$OUTPUT_DIR/$name.png"
 
 done
 
-echo "همه دیاگرام‌ها ساخته شدن! → $OUTPUT_DIR"
+echo "Alles generieret! → $OUTPUT_DIR"

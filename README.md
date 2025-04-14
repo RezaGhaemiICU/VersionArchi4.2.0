@@ -1,4 +1,4 @@
-# AiCUnet – KI-gestützte Architekturplattform
+# AiCUnet – KI-gestützte ( Bereite ) Architekturplattform
 
 FÜR GENAUERE INFORMATIONEN UNBEDINGT DIE INHALTE VON docs/ FOLDER ZU LESEN! 
 README IST NICHT UPDATE

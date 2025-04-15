@@ -1,4 +1,4 @@
-# Execution Flow – Zentrale Kommunikationslogik bei AuftragLöschung
+# Execution Flow / Zentrale Kommunikationslogik bei AuftragLöschung als Beispiel
 
 ## Kontext
 

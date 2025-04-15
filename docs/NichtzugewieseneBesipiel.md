@@ -48,13 +48,25 @@ inklusive alle relevanten Informationen wie:
    - Fasst die Daten zusammen, AuftragService und DokumentenService logisch.  
    - Finales Response-Objekt an Frontend.
 
+7. **Vorteile**  
 
+Problem und Unsere Lösung
+- Service-zu-Service-Kommunikation	verboten → alles läuft über ExecutionService
+- Datenaggregation aus mehreren Quellen	durch koordiniertes Querying
+- Erweiterbarkeit (z. B. neue Felder)	einfach durch neue Calls in ExecutionService
+- Fehlerbehandlung & Retry	kann zentral im ExecutionService kontrolliert werden
 
+8. **Retry & Fehlerbehandlung**
+- Falls z. B. der DokumentenService nicht erreichbar ist:
+•	ExecutionService kann Retry-Mechanismus auslösen.
+•	Bei permanentem Fehler → Response mit Teildaten oder technischer Alert.
 
-
+9. **Fazit**
+•	Erlaubt maximale Trennung von Services.
+•	Ist stabil, nachvollziehbar, testbar.
+•	Und bereit für zukünftige Erweiterungen wie weitere Filter oder Drittsysteme.
 
 ## Ergebnis (Response in Frontend)
-
 
 ```json
 [
@@ -65,34 +77,9 @@ inklusive alle relevanten Informationen wie:
     "assigneeName": "Franz Reiter“,
     "fehlendeDokumente": ["Passkopie", "Mietvertrag"]
   },
-  ...
 ]
 
 
 
-Vorteile 
 
-Problem	Unsere Lösung
-Service-zu-Service-Kommunikation	verboten → alles läuft über ExecutionService
-Datenaggregation aus mehreren Quellen	durch koordiniertes Querying
-Erweiterbarkeit (z. B. neue Felder)	einfach durch neue Calls in ExecutionService
-Fehlerbehandlung & Retry	kann zentral im ExecutionService kontrolliert werden
-
-
- Retry & Fehlerbehandlung
-
-Falls z. B. der DokumentenService nicht erreichbar ist:
-	•	ExecutionService kann Retry-Mechanismus auslösen.
-	•	Bei permanentem Fehler → Response mit Teildaten oder technischer Alert.
-
-
-
-Fazit
-
-Diese Struktur:
-	•	Erlaubt maximale Trennung von Services.
-	•	Ist stabil, nachvollziehbar, testbar.
-	•	Und bereit für zukünftige Erweiterungen wie weitere Filter oder Drittsysteme.
-
-ExecutionService ist  die Brücke zwischen allen Services – kontrolliert, modular und transparent.
 

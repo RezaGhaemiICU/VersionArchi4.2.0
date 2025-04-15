@@ -16,7 +16,7 @@ Ziel
 	•	Individuelle Anpassung pro Abteilung oder Region oder Zeitlich
 
 
-##Beispiel
+Beispiel
 
 Rollen
 
@@ -25,17 +25,17 @@ Assignee	Sieht & bearbeitet eigene Fälle
 Manager	Sieht & bearbeitet alle Fälle, verwaltet Doks
 Administrator	Systemweite Zugriff auf alles
 
-##Policies
+Policies
 
-##Policy	Enthält z. B.
+Policy	Enthält z. B.
 Case Management	view_cases, edit_cases
 Document Policy	upload_documents
 System Config Policy	configure_system
 User Management Policy	manage_users
 
-##Permissions
+Permissions
 
-##Recht	  Funktion z.B.
+Recht	  Funktion z.B.
 view_cases	Fälle anzeigen
 edit_cases	Fälle bearbeiten
 upload_documents	Dokumente hochladen
@@ -48,14 +48,14 @@ manage_users	Benutzerkonten verwalten
 
 Die HR-Abteilung von Firma XY, darf Fälle sehen, aber nicht hochladen oder löschen.
 
-##Lösung
+Lösung
 	•	Neue Policy auf Basis von „Case Management“
 	•	Entferne: upload_documents
 	•	Weisen nur HR-Rollen zu
 
 ⸻
 
-##Vorteile
+Vorteile
 	•	Flexibel: Richtlinien können angepasst werden
 	•	Skalierbar: Einfache Erweiterung für neue Länder oder Teams
 	•	Konsistent: Gleiche Logik für alle Rollen
@@ -63,13 +63,13 @@ Die HR-Abteilung von Firma XY, darf Fälle sehen, aber nicht hochladen oder lös
 
 ⸻
 
-##Hinweis zur Umsetzung
+Hinweis zur Umsetzung
 	•	Die Rollenlogik ist im System definiert
 	•	Die Zuweisung von Policies erfolgt im Admin-Panel
 	•	Services prüfen Rechte ausschließlich über Policies
 	•	Keine direkte Prüfung von einzelnen Permissions in der UI
 
-##Fatit
+Fatit
 Im Vergleich zu aktuelle System bietet neue Rollen und Berechtigung konzept klare Vorteile:
 Statt unübersichtlicher Einzelrechte pro Benutzer arbeiten wir mit Policies mit Rahmen, die flexibel anpassbar und reuseable sind.
 Das bringt uns bessere Nachvollziehbarkeit, weniger Fehlerquellen und eine leichtere Pflege, besonders bei komplexe Organisationen mit vielen Nutzer typen.

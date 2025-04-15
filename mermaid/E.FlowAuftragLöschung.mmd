@@ -1,0 +1,69 @@
+---
+config:
+  theme: redux
+  layout: fixed
+  look: handDrawn
+---
+flowchart LR
+ subgraph Frontend["Frontend"]
+        FE1["User klickt: Auftrag löschen"]
+        FE2["Request an Gateway"]
+  end
+ subgraph Gateway["API Gateway"]
+        GW1["JWT prüfen + Rolle"]
+        GW2["Route zu AuftragService"]
+  end
+ subgraph Logic["Logik Service"]
+        LG1["Validierung: ID, Zugriff, Zustand"]
+        LG2["Verknüpfte Entitäten prüfen"]
+  end
+ subgraph Automation["Automation/Event Handling"]
+        AUTO1["Event erzeugen: AuftragGeloescht"]
+        AUTO2["DB Änderungen + Audit Log"]
+        EVENTBUS["EventBus sendet Event an ExecutionService"]
+  end
+ subgraph Services["Microservices mit Retry-Logik"]
+        SVC1["DokumentenService"]
+        R1["Retry max. 3x"]
+        SVC2["HR-Service"]
+        R2["Retry max. 3x"]
+        SVC3["UserService"]
+        R3["Retry max. 3x"]
+        SVC4["FinanceService"]
+        R4["Retry max. 3x"]
+        SVC5["NotificationService"]
+        R5["Retry max. 3x"]
+        SVC6["FragebogenService"]
+        R6["Retry max. 3x"]
+  end
+ subgraph Execution["ExecutionService Kommunikationszentrale"]
+        EXEC1["Empfängt Event koordiniert Lösch-Kette"]
+        Services
+        DLQ["→ Bei Fehler: DLQ + Alert"]
+  end
+ subgraph Persistenz["Logging + DB"]
+        DB1["Audit Logs"]
+        DB2["Monitoring + Trace"]
+  end
+    FE1 --> FE2
+    FE2 --> GW1
+    GW1 --> GW2
+    GW2 --> LG1
+    LG1 --> LG2
+    LG2 --> AUTO1
+    AUTO1 --> AUTO2
+    AUTO2 --> EVENTBUS & DB1
+    EVENTBUS --> EXEC1
+    EXEC1 --> SVC1 & SVC2 & SVC3 & SVC4 & SVC5 & SVC6 & DB2
+    SVC1 --> R1
+    R1 --> DLQ
+    SVC2 --> R2
+    R2 --> DLQ
+    SVC3 --> R3
+    R3 --> DLQ
+    SVC4 --> R4
+    R4 --> DLQ
+    SVC5 --> R5
+    R5 --> DLQ
+    SVC6 --> R6
+    R6 --> DLQ

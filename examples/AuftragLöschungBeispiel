@@ -1,9 +1,0 @@
-flowchart LR
-  subgraph GATEWAY [Gateway Layer]
-    Gateway["API Gateway\n(RBAC + Routing)"]
-  end
-
-  subgraph LOGIC [Zugriffslogik & Prüfung]
-    RoleCheck["Rollenprüfung\n(z. B. HR, Admin)"]
-    Validation["Auftragsprüfung\n(Existenz, Berechtigung)"]
-  end

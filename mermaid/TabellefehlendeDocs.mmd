@@ -1,0 +1,39 @@
+---
+config:
+  look: handDrawn
+  theme: redux
+  layout: fixed
+---
+flowchart TB
+ subgraph Frontend["Frontend"]
+        UI["UI sendet GET/auftraege/unassigned"]
+  end
+ subgraph Gateway["Gateway"]
+        GW["API Gateway prüft: Token & Rolle"]
+  end
+ subgraph ExecutionService["ExecutionService (Kommunikation & Koordination)"]
+        EXEC["Koordiniert alle Services für Datenabfrage"]
+  end
+ subgraph AuftragService["AuftragService"]
+        A1["Query: WHERE assigned = false"]
+        A2["Joins: Länder, Assignee"]
+  end
+ subgraph DokumentenService["DokumentenService"]
+        D1["Dokument-Check: Was fehlt je Auftrag?"]
+  end
+ subgraph Aggregation["Aggregation / Response"]
+        R1["Response:– Auftragsname– OriginCountry– TargetCountry– Assignee Name– Fehlende Dokumente"]
+  end
+    UI --> GW
+    GW --> EXEC
+    EXEC --> A1 & D1 & R1
+    A1 --> A2
+    A2 --> EXEC
+    D1 --> EXEC
+    R1 --> UI
+    style Frontend stroke:#FFCDD2,fill:#FFCDD2
+    style Gateway stroke:#BBDEFB,fill:#BBDEFB
+    style ExecutionService stroke:#C8E6C9,fill:#C8E6C9
+    style AuftragService stroke:#FFE0B2,fill:#FFE0B2
+    style DokumentenService stroke:#FFF9C4,fill:#FFF9C4
+    style Aggregation stroke:#E1BEE7,fill:#E1BEE7

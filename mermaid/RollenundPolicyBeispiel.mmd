@@ -1,0 +1,85 @@
+---
+config:
+  theme: redux
+  layout: elk
+  curve: linear
+  look: handDrawn
+---
+flowchart TD
+ subgraph Rollen["Rollen (vordefiniert)"]
+        R1["Assignee"]
+        R2["Manager"]
+        R3["Admin"]
+  end
+ subgraph Policies["Basisrichtlinien"]
+        P1["Case Management Policy"]
+        P2["Dokumentenrichtlinie"]
+        P3["System Policy"]
+        P4["User Management Policy"]
+  end
+ subgraph Permissions["Berechtigungen"]
+        PER1["view_cases"]
+        PER2["edit_cases"]
+        PER3["upload_documents"]
+        PER4["delete_documents"]
+        PER5["configure_system"]
+        PER6["manage_users"]
+  end
+ subgraph Features["UI-Features"]
+        F1["Fallübersicht anzeigen"]
+        F2["Bearbeiten-Button"]
+        F3["Dokumenten-Upload-Interface"]
+        F4["System-Settings"]
+        F5["Benutzerverwaltung"]
+  end
+ subgraph CustomPolicies["Custom Policies"]
+        CP1["HR Policy (read-only Cases)"]
+        CP2["IT Policy (nur Settings)"]
+        CP3["Regional Policy (limitierter Zugriff)"]
+  end
+    AdminPanel["Admin Portal"] --> R1 & R2 & R3
+    R1 --> P1
+    R2 --> P1 & P2
+    R3 --> P1 & P2 & P3 & P4
+    P1 --> PER1 & PER2
+    P2 --> PER3 & PER4
+    P3 --> PER5
+    P4 --> PER6
+    CP1 --> PER1
+    CP2 --> PER5
+    CP3 --> PER1 & PER2
+    PER1 --> F1
+    PER2 --> F2
+    PER3 --> F3
+    PER4 --> F3
+    PER5 --> F4
+    PER6 --> F5
+    style AdminPanel stroke:#D50000
+    style Features stroke:#FF6D00,fill:#E1BEE7
+    style Permissions stroke:#FF6D00,fill:#FFE0B2
+    style Policies fill:#FFF9C4,stroke:#2962FF
+    style CustomPolicies fill:#C8E6C9,stroke:#00C853
+    style Rollen fill:#BBDEFB,stroke:#AA00FF
+    linkStyle 3 stroke:#FF6D00,fill:none
+    linkStyle 4 stroke:#2962FF,fill:none
+    linkStyle 5 stroke:#2962FF,fill:none
+    linkStyle 6 stroke:#D50000,fill:none
+    linkStyle 7 stroke:#D50000,fill:none
+    linkStyle 8 stroke:#D50000,fill:none
+    linkStyle 9 stroke:#D50000,fill:none
+    linkStyle 10 stroke:#E1BEE7,fill:none
+    linkStyle 11 stroke:#E1BEE7,fill:none
+    linkStyle 12 stroke:#E1BEE7,fill:none
+    linkStyle 13 stroke:#E1BEE7,fill:none
+    linkStyle 14 stroke:#E1BEE7,fill:none
+    linkStyle 15 stroke:#E1BEE7,fill:none
+    linkStyle 16 stroke:#00C853,fill:none
+    linkStyle 17 stroke:#00C853,fill:none
+    linkStyle 18 stroke:#00C853,fill:none
+    linkStyle 19 stroke:#00C853,fill:none
+    linkStyle 20 stroke:#FFD600,fill:none
+    linkStyle 21 stroke:#FFD600,fill:none
+    linkStyle 22 stroke:#FFD600,fill:none
+    linkStyle 23 stroke:#FFD600,fill:none
+    linkStyle 24 stroke:#FFD600,fill:none
+    linkStyle 25 stroke:#FFD600,fill:none

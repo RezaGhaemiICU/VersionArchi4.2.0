@@ -1,4 +1,4 @@
-# 🧩 Dynamic Service Request Modul
+#  Dynamic Service Request Modul
 
 Dieses Modul ermöglicht es, zusätzliche Services **dynamisch** und **benutzerfreundlich** anzufordern – abhängig von **vertraglichen Vereinbarungen**, **Budgets** und **individueller Genehmigung**.
 

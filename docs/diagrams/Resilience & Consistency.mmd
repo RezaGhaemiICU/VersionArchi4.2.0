@@ -1,0 +1,44 @@
+---
+config:
+  theme: redux
+  layout: TB
+  flowchart:
+    curve: basis
+  look: handDrawn
+---
+flowchart TD
+  DEV["Dev Environment\(Local Dev + Tests)"]
+  CI[CI/CD Pipeline\Build + Test + Deploy]
+  VERSIONING[Deployment & Versioning\Canary, Blue-Green, Rolling]
+  FAIL["Deployment Failed?"]
+  ROLLBACK["Rollback (Auto/Manual)"]
+  PRODUCER["Microservice → Kafka Producer"]
+  KAFKA["Event Bus\Kafka"]
+  CONSUMER["Kafka → Microservice Consumer"]
+  ASYNC["Async Event Handling"]
+  CONFLICT["Conflict Detection / Retry\(Eventual Consistency)"]
+  DLQ["DLQ: Error Events"]
+  RETRY["Retry Queue\nwith Backoff"]
+  ALERT["Alerting & Logging"]
+  CONSISTENCY["State Check\& Final Consistency"]
+  STATE["Shared State Mgmt\(Redis, etc.)"]
+  BACKUP["Data Backup\& Recovery"]
+  DONE["Stable System State"]
+  DEV --> CI
+  CI --> VERSIONING
+  VERSIONING --> FAIL
+  FAIL --> ROLLBACK
+  ROLLBACK --> VERSIONING
+  VERSIONING --> PRODUCER
+  PRODUCER --> KAFKA
+  KAFKA --> CONSUMER
+  CONSUMER --> ASYNC
+  ASYNC --> CONFLICT --> CONSISTENCY
+  CONSUMER --> STATE
+  CONSUMER --> BACKUP
+  CONSUMER --> DLQ
+  DLQ --> RETRY --> CONSUMER
+  DLQ --> ALERT
+  CONSISTENCY --> DONE
+  classDef highlight fill:#D1E8FF,stroke:#2B7DD3,stroke-width:2px;
+  class VERSIONING,ROLLBACK,CONFLICT,CONSISTENCY highlight;

@@ -1,0 +1,31 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+  layout: fixed
+---
+flowchart TD
+ subgraph Communication["Kommunikation Layer"]
+        EXEC["ExecutionService"]
+        EVENTBUS["EventBus"]
+  end
+ subgraph InternalAutomation["Interne Automatisierung"]
+        RULES["BusinessRules\n→ z. B. Fristen, Validierungen"]
+        WF["WorkflowEngine\n→ Aufgabenverteilung, Eskalationen"]
+        TIMER["TimerService\n→ geplante Events z. B. Erinnerungen"]
+        RETRY["RetryService\n→ Fehlerbehandlung & Wiederholungslogik"]
+        MONITOR["Monitoring\n→ Statusüberwachung, Logging"]
+  end
+    EXEC --> EVENTBUS
+    EVENTBUS --> RULES & WF & TIMER & RETRY & MONITOR
+    RULES --> WF
+    WF --> MONITOR
+    RETRY --> WF
+    TIMER --> WF
+    style RULES stroke:#1B5E20
+    style WF stroke:#388E3C
+    style TIMER stroke:#0288D1
+    style RETRY stroke:#D32F2F
+    style MONITOR stroke:#6A1B9A
+    style Communication fill:#BBDEFB,stroke:#0D47A1
+    style InternalAutomation fill:#E8F5E9,stroke:#2E7D32

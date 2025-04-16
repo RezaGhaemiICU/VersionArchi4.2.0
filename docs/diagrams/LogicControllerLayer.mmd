@@ -1,0 +1,37 @@
+---
+config:
+  theme: default
+  layout: TB
+---
+flowchart TB
+  subgraph Trigger["Start"]
+    T1["Event: Dokumente vollständig & gültig"]
+    T2["Statuswechsel: DokumenteValidiert"]
+  end
+
+  subgraph WorkflowEngine["Workflow-Service / Execution Coordinator"]
+    W1["WorkflowSteps laden (je nach Auftragstyp, Kunde, Land)"]
+    W2["Step 1 starten: z. B. Visum beantragen"]
+    W3["Automatisierte Aktion (z. B. PDF erzeugen, API-Aufruf)"]
+    W4["Manueller Task: z. B. Dokument zum Amt bringen"]
+    W5["Status speichern & Step abschließen"]
+    W6["Event: StepErledigt"]
+    W7["→ Nächster Step"]
+  end
+
+  subgraph Fehler["Ausnahmen / Eskalationen"]
+    E1["Fehler bei Step-Ausführung?"]
+    E2["Event: StepFehlgeschlagen"]
+    E3["Trigger Retry / Notification"]
+    E4["DLQ & Audit"]
+  end
+
+  subgraph Kommunikation["Kommunikation"]
+    K1["Autom. E-Mail / Nachricht an HR oder Assignee"]
+    K2["In-App Statusupdate"]
+    K3["Dynamische Erinnerungen"]
+  end
+
+  T1 --> T2 --> W1 --> W2 --> W3 --> W4 --> W5 --> W6 --> W7
+  W3 -->|Fehler| E1 --> E2 --> E3 --> E4
+  W6 --> K1 & K2 & K3

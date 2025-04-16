@@ -1,0 +1,36 @@
+---
+config:
+  theme: default
+  layout: TB
+---
+flowchart TB
+  subgraph Eingehend["Input / Trigger"]
+    IN1["Eingang Auftrag (aus UI / API)"]
+    IN2["Synchronisiert mit ATS oder externem HR-System"]
+  end
+
+  subgraph Prüfung["Prüfung & Initialisierung"]
+    V1["Validierung Auftragdaten"]
+    V2["Check auf Dubletten (z. B. gleiche Assignee)"]
+    V3["Verfügbarkeitsprüfung Team & Region"]
+    V4["Initial-Status setzen: 'Eingegangen'"]
+    V5["Zuweisung eines internen Owners (z. B. Immigration Manager)"]
+  end
+
+  subgraph Automatisierung["Automation / Innovation"]
+    A1["Smart Matching mit verantwortlichen Teams basierend auf Kriterien"]
+    A2["Event: AuftragValidiert"]
+    A3["Audit Logging + Metrics"]
+  end
+
+  subgraph Fehlerbehandlung["Fehler / Rückmeldung"]
+    F1["Ungültig? → Rückmeldung an UI mit Fehlerbeschreibung"]
+    F2["Fehlgeschlagen? → Retry + Logging"]
+  end
+
+  IN1 --> V1
+  IN2 --> V1
+  V1 --> V2 --> V3 --> V4 --> V5
+  V5 --> A1 --> A2 --> A3
+  V1 -->|Ungültig| F1
+  V1 -->|Technischer Fehler| F2

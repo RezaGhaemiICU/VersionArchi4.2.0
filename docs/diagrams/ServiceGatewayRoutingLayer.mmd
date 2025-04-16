@@ -1,0 +1,36 @@
+---
+config:
+  theme: default
+  layout: TB
+---
+flowchart TB
+  subgraph Trigger["Startbedingung"]
+    T1["Status: Auftrag validiert"]
+    T2["Event: AuftragValidiert empfangen"]
+  end
+
+  subgraph Dokumentenprozess["Dokumentenanforderung & Upload"]
+    D1["Anforderungslogik laden (basierend auf Country, Visa-Typ etc.)"]
+    D2["Generierung der Dokumentenliste"]
+    D3["Event: DokumenteAngefordert"]
+    D4["Assignee / HR lädt Dokumente hoch (UI oder API)"]
+  end
+
+  subgraph Validierung["Validierung & Statuswechsel"]
+    V1["Automatische Vorprüfung (z. B. PDF-Check, Naming, Vollständigkeit)"]
+    V2["Manuelle Prüfung durch Consultant / Specialist"]
+    V3["Statuswechsel: Dokument akzeptiert / abgelehnt"]
+    V4["Event: DokumentGeprueft"]
+  end
+
+  subgraph Fehlerhandling["Fehler / Automatische Erinnerung"]
+    F1["Fehlendes oder falsches Dokument? → Reminder an HR / Assignee"]
+    F2["Event: DokumentFehler"]
+    F3["Audit Log & Monitoring"]
+  end
+
+  T1 --> T2 --> D1 --> D2 --> D3 --> D4 --> V1 --> V2 --> V3 --> V4
+  V1 -->|Fehler| F1
+  V2 -->|Abgelehnt| F2
+  F1 --> F3
+  F2 --> F3

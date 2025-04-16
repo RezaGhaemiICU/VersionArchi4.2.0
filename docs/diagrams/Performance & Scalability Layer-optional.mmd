@@ -1,0 +1,45 @@
+---
+config:
+  theme: default
+  layout: grid
+  look: handDrawn
+---
+flowchart TD
+ subgraph Client["Client"]
+        B1["Browser / App"]
+  end
+ subgraph LoadBalancer["Load Balancer"]
+        LB["Load Distribution\nSticky Sessions (optional)"]
+  end
+ subgraph Gateway["API Gateway"]
+        GW["Request Throttling\nCaching Headers"]
+  end
+ subgraph Frontend["Frontend"]
+        FE1["Lazy Loading Components"]
+        FE2["Client Caching (IndexedDB, LocalStorage)"]
+        FE3["Pagination & Infinite Scroll"]
+  end
+ subgraph Services["Scalable Microservices"]
+        S1["Horizontal Scaling via Kubernetes"]
+        S2["Stateless Design"]
+        S3["Request Queueing (RabbitMQ)"]
+        S4["Async Processing via Execution-Service"]
+  end
+ subgraph DBLayer["Datenbank-Optimierung"]
+        DB1["Connection Pooling"]
+        DB2["Read/Write Splitting"]
+        DB3["Caching Layer (Redis)"]
+        DB4["Indexed Queries"]
+  end
+ subgraph Monitoring["Monitoring"]
+        M1["Performance Metrics\nvia Prometheus"]
+        M2["Alerts bei Response-Zeit"]
+        M3["Auto-Scaling Triggers"]
+  end
+    B1 --> LB
+    LB --> GW
+    GW --> FE1 & FE2 & FE3 & S1 & S2 & S3 & S4
+    S1 --> DB1 & DB2 & DB3 & DB4 & M1 & M2
+    M3 --> S1
+    style S3 fill:transparent
+    style S4 fill:transparent

@@ -1,0 +1,61 @@
+---
+config:
+  theme: redux
+  layout: grid
+  look: handDrawn
+---
+flowchart TD
+  subgraph Client
+    A1["Browser / App"]
+  end
+
+  subgraph LoadBalancer["Load Balancer"]
+    LB["Request Routing\nSSL Termination"]
+  end
+
+  subgraph Gateway["API Gateway / Reverse Proxy"]
+    GW["Routing + Auth\nRate Limiting"]
+  end
+
+  subgraph Services["Microservices Cluster (Docker/Kubernetes)"]
+    S1["Frontend-Service"]
+    S2["Auth-Service"]
+    S3["Assignment-Service"]
+    S4["Execution-Service\n(Orchestrierung, Retry, DLQ)"]
+    S5["Document-Service"]
+    S6["HR-Service"]
+  end
+
+  subgraph MessageBus["Internal EventBus / Kafka"]
+    BUS["Transport Only\nNo Logic"]
+  end
+
+  subgraph CI_CD["CI/CD Pipeline"]
+    CI["Code Push"]
+    TEST["Tests & Lint"]
+    BUILD["Build Docker Image"]
+    DEPLOY["Deploy to Cluster"]
+  end
+
+  subgraph ConfigSecrets["Secrets & Config Mgmt"]
+    SECRETS["Secrets Store (z. B. Vault)"]
+    CONFIG["Environment Configs (.env, etc.)"]
+  end
+
+  subgraph Monitoring["Monitoring & Logging"]
+    LOG["Central Logging\n(Sentry, ELK)"]
+    METRICS["Prometheus / Grafana"]
+  end
+
+  A1 --> LB --> GW --> S1
+  GW --> S2 & S3 & S4 & S5 & S6
+  S4 --> BUS
+  BUS --> S3 & S5 & S6
+
+  CI --> TEST --> BUILD --> DEPLOY --> Services
+  Services --> LOG
+  Services --> METRICS
+  Services --> CONFIG & SECRETS
+
+  classDef layer fill:#E3F2FD,stroke:#2196F3,stroke-width:1px;
+  class LoadBalancer,Gateway,Services,MessageBus,CI_CD,ConfigSecrets,Monitoring layer

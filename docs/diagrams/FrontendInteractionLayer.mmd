@@ -1,0 +1,37 @@
+---
+config:
+  theme: default
+  layout: TB
+---
+
+flowchart TB
+  subgraph Kunde["Kunde / HR"]
+    A1["öffnet Kundenportal"]
+    A2["füllt Anfrageformular aus"]
+    A3["sendet Anfrage (Submit)"]
+  end
+
+  subgraph ExterneSysteme["ATS oder HR-Tool"]
+    EXT1["Optionale Sync\n(z. B. interne API / ATS)"]
+  end
+
+  subgraph Frontend["Frontend + Gateway"]
+    B1["HTTP POST /api/auftrag/create"]
+    B2["JWT-Token validieren"]
+    B3["Rollenprüfung (HR/KeyUser)"]
+    B4["Route zu AuftragService"]
+  end
+
+  subgraph AuftragService["Microservice: Auftrag"]
+    C1["Validierung der Anfrage-Daten"]
+    C2["Prüfung auf Duplikate"]
+    C3["Anlegen eines neuen Auftrags in DB"]
+    C4["Status: 'Angelegt'"]
+    C5["AuditLog: Auftrag angelegt"]
+    C6["Event: AuftragErstellt → EventBus"]
+  end
+
+  A1 --> A2 --> A3 --> B1
+  EXT1 --> B1
+  B1 --> B2 --> B3 --> B4
+  B4 --> C1 --> C2 --> C3 --> C4 --> C5 --> C6

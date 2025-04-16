@@ -1,0 +1,65 @@
+---
+config:
+  theme: default
+  layout: grid
+  look: handDrawn
+---
+flowchart TD
+ subgraph Client["Client"]
+        A1["Browser / App"]
+  end
+ subgraph LoadBalancer["Load Balancer"]
+        LB["Request Routing\nSSL Termination"]
+  end
+ subgraph Gateway["API Gateway / Reverse Proxy"]
+        GW["Routing + Auth\nRate Limiting"]
+  end
+ subgraph Services["Microservices Cluster (Docker später Kubernetes)"]
+        S1["Frontend-Service"]
+        S2["Auth-Service"]
+        S3["Assignment-Service"]
+        S4["Execution-Service"]
+        S5["Document-Service"]
+        S6["HR-Service"]
+  end
+ subgraph MessageBus["Internal EventBus / Kafka"]
+        BUS["Transport Only\n+ Retry, DLQ"]
+  end
+ subgraph CI_CD["CI/CD Pipeline"]
+        CI["Code Push"]
+        TEST["Tests & Lint"]
+        BUILD["Build Docker Image"]
+        DEPLOY["Deploy to Cluster"]
+  end
+ subgraph ConfigSecrets["Secrets & Config Mgmt"]
+        SECRETS["Secrets Store (e.g. Vault)"]
+        CONFIG["Environment Configs (.env, etc.)"]
+  end
+ subgraph Monitoring["Monitoring & Logging"]
+        LOG["Central Logging\n(Sentry, ELK)"]
+        METRICS["Prometheus / Grafana"]
+  end
+ subgraph Integration["Open API Layer / External Integrations"]
+        ADAPTER1["Gov API Adapter\n(XML/SOAP → REST)"]
+        ADAPTER2["SMTP Adapter"]
+        ADAPTER3["CRM Adapter\n(REST/GraphQL)"]
+        ADAPTER4["ATS Adapter (z. B. SAP)"]
+        DOC["Online API Docs ( Redoc)"]
+  end
+    A1 --> LB
+    LB --> GW
+    GW --> S1 & S2 & S3 & S4 & S5 & S6
+    S4 --> BUS & ADAPTER1 & ADAPTER2
+    BUS --> S3 & S5 & S6
+    S5 --> ADAPTER3
+    S6 --> ADAPTER4
+    DOC -- Read Only --> A1
+    CI --> TEST
+    TEST --> BUILD
+    BUILD --> DEPLOY
+    DEPLOY --> Services
+    Services --> LOG & METRICS & CONFIG & SECRETS
+     Services:::layer
+    classDef layer fill:#E3F2FD,stroke:#2196F3,stroke-width:1px
+    style S2 fill:transparent
+    style S4 fill:transparent

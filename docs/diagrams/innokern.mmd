@@ -1,0 +1,31 @@
+---
+config:
+  theme: base
+  layout: TB
+---
+flowchart TB
+  subgraph Innovationen[" Innovationen & Verbesserungen"]
+  
+    AI1["AI-gestützte Validierung von Dokumenten"]
+    AI2["Automatischer Vorschlag von fehlenden Daten"]
+    AI3["Übersetzungs-Service für internationale Dokumente"]
+    
+    SELF1["Self-Service Onboarding für Assignees"]
+    SELF2["Progress-Tracker für HR & Assignee"]
+    
+    NOTIFY1["Echtzeit-Notifikationen via In-App & Mail"]
+    NOTIFY2["Benutzerdefinierte Reminder-Logik"]
+    
+    REPORT1["Live-Dashboard für KPI-Monitoring"]
+    REPORT2["Export-Funktion für BI-Systeme"]
+    
+    SEC1["Rollenbasiertes Sicherheitsmodell"]
+    SEC2["Zentrale Privilege-Engine mit Policy Builder"]
+    
+  end
+
+  AI1 --> AI2 --> AI3
+  SELF1 --> SELF2
+  NOTIFY1 --> NOTIFY2
+  REPORT1 --> REPORT2
+  SEC1 --> SEC2

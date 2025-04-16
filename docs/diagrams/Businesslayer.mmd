@@ -1,0 +1,41 @@
+---
+config:
+  theme: default
+  layout: TB
+---
+flowchart TB
+  subgraph ArrivalTrigger["Arrival Management"]
+    A1["Event: Einreisedatum bestätigt"]
+    A2["Status: Assignee ist im Zielland"]
+  end
+
+  subgraph RelocationCoordination["Relocation Services Koordination"]
+    R1["Wohnungssuche starten (Home Search Service)"]
+    R2["Schul-/Kindergartensuche"]
+    R3["Orientation Tour planen"]
+    R4["Temporäre Unterkunft koordinieren"]
+    R5["Anmeldung (Meldezettel) vorbereiten"]
+  end
+
+  subgraph Ausführung["Durchführung & Dokumentation"]
+    D1["Dienstleister beauftragen"]
+    D2["Termine koordinieren (mit Kalender/Tool)"]
+    D3["Statusupdates senden (an HR, Assignee)"]
+    D4["Dokumentation sichern (z. B. Mietvertrag, Tour-Bericht)"]
+  end
+
+  subgraph Fehlerbehandlung["Fehler & Rückfragen"]
+    F1["Assignee nicht auffindbar?"]
+    F2["Dienstleister nicht verfügbar?"]
+    F3["Alert an Account Manager + Retrying"]
+  end
+
+  A1 --> A2 --> R1 & R2 & R3 & R4 & R5
+  R1 --> D1
+  R2 --> D1
+  R3 --> D1
+  R4 --> D1
+  R5 --> D1
+  D1 --> D2 --> D3 --> D4
+  D2 -->|Fehler| F2
+  D3 -->|Assignee reagiert nicht| F1

@@ -1,0 +1,36 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+  A["Assignee wählt Service (UI)"]
+  B1["Service ist vertraglich enthalten?"]
+  B2["Service ist individuell / optional"]
+  C1["→ Service sofort aktivieren"]
+  C2["Budgetprüfung starten"]
+  D["Budget verfügbar?"]
+  E1["→ Automatisch an HR zur Freigabe senden"]
+  E2["→ Angebot zur Direktzahlung (Stripe)"]
+  F1["HR genehmigt"]
+  F2["HR lehnt ab"]
+  G1["→ Service wird aktiviert"]
+  G2["→ Anfrage wird abgelehnt"]
+  H1["→ Nach Zahlung: Service wird aktiviert"]
+  H2["→ Nicht bezahlt: Anfrage wird verworfen"]
+  A --> B1
+  B1 -- Ja --> C1
+  B1 -- Nein --> B2
+  B2 --> C2
+  C2 --> D
+  D -- Ja --> E1
+  D -- Nein --> E2
+  E1 --> F1
+  E1 --> F2
+  F1 --> G1
+  F2 --> G2
+  E2 --> H1
+  H1 --> G1
+  E2 --> H2
+  classDef step fill:#F5F5DC,stroke:#333,stroke-width:1px;
+  class A,B1,B2,C1,C2,D,E1,E2,F1,F2,G1,G2,H1,H2 step;

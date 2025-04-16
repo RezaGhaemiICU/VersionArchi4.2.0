@@ -1,0 +1,52 @@
+---
+config:
+  theme: default
+  layout: td
+---
+flowchart TD
+
+  subgraph Domain_Auftrag ["Domain: Auftragsverwaltung"]
+    AU1["Auftrag erstellen"]
+    AU2["Auftrag validieren"]
+    AU3["Status aktualisieren"]
+  end
+
+  subgraph Domain_Dokumente ["Domain: Dokumentenmanagement"]
+    DO1["Dokument hochladen"]
+    DO2["Pflichtdokument prüfen"]
+    DO3["Dokumente freigeben"]
+  end
+
+  subgraph Domain_Immigration ["Domain: Immigration"]
+    IM1["Behördenkontakt starten"]
+    IM2["Visa-Daten prüfen"]
+    IM3["Check-Ins koordinieren"]
+  end
+
+  subgraph Domain_Relocation ["Domain: Relocation"]
+    RE1["Wohnungssuche starten"]
+    RE2["Anmeldung organisieren"]
+    RE3["Tour & Integration"]
+  end
+
+  subgraph Domain_User ["Domain: Benutzerverwaltung"]
+    US1["User anlegen"]
+    US2["Rollen + Privilegien zuweisen"]
+    US3["User deaktivieren"]
+  end
+
+  subgraph Domain_Organisation ["Domain: Organisation & Kunden"]
+    OR1["Kundendaten verwalten"]
+    OR2["Partner verwalten"]
+    OR3["Teamstruktur abbilden"]
+  end
+
+  %% Beziehungen
+  AU1 --> DO1
+  AU2 --> DO2
+  DO2 --> IM1
+  IM2 --> RE1
+  AU3 --> RE2
+  RE3 --> OR1
+  US2 --> OR3
+  OR2 --> US3

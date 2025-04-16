@@ -1,0 +1,33 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+  subgraph ServiceLayer["Microservice (Fachlogik)"]
+    TRY["Operation wird ausgeführt"]
+    TRY --> |Fehler| CATCH["Fehler wird erkannt"]
+  end
+  subgraph ErrorHandling["Fehlerbehandlung"]
+    CATCH --> CLASSIFY["Fehlertyp erkennen"]
+    CLASSIFY --> RETRY["Retry falls möglich (max. X Versuche)"]
+    CLASSIFY --> CRITICAL["Kritischer Fehler?"]
+  end
+  subgraph Logging["Logging & Monitoring"]
+    CATCH --> LOG["Fehler-Log in Log-Service"]
+    LOG --> METRIC["Statistik & Alerts"]
+  end
+  subgraph DLQ["Dead Letter Queue"]
+    CRITICAL -- Ja --> DLQ_ENTRY["Fehler in DLQ schreiben"]
+    DLQ_ENTRY --> NOTIFY["Alert an DevOps/Admin"]
+  end
+  subgraph Fallback["Fallback / Response"]
+    RETRY -- Erfolglos --> FALLBACK["Fallback-Logik oder Fehlermeldung"]
+    CRITICAL -- Nein --> FALLBACK
+    FALLBACK --> RESPONSE["Fehler-Antwort an Client"]
+  end
+  style ServiceLayer fill:#BBDEFB,stroke:#1565C0
+  style ErrorHandling fill:#FFE0B2,stroke:#EF6C00
+  style Logging fill:#E0E0E0,stroke:#616161
+  style DLQ fill:#FFCDD2,stroke:#D32F2F
+  style Fallback fill:#DCEDC8,stroke:#689F38

@@ -1,0 +1,37 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+  subgraph Frontend["Frontend (z. B. Web App)"]
+    UI["User klickt auf Button (z. B. Antrag erstellen)"]
+    UI --> API["HTTP Request an API Gateway"]
+  end
+  subgraph Gateway["API Gateway"]
+    API --> CHECK["Token prüfen + Rolle validieren"]
+    CHECK --> ROUTE["Route bestimmen & weiterleiten"]
+  end
+  subgraph Rollenlogik["Policy/Rollen-Logik"]
+    ROUTE --> POLICY["Policy Check: Hat User die Berechtigung?"]
+    POLICY -- erlaubt --> MSENTRY["Aufruf des zuständigen Microservice"]
+    POLICY -- verboten --> ERR["Fehlermeldung: Access Denied"]
+  end
+  subgraph Microservice["Fachlogik (z. B. AuftragService)"]
+    MSENTRY --> VALIDATE["Business Validierung"]
+    VALIDATE --> LOGIC["Business Logik & Verarbeitung"]
+    LOGIC --> DBWRITE["Daten vorbereiten für DB"]
+  end
+  subgraph Persistenz["Persistence"]
+    DBWRITE --> DB["Datenbank-Schreibvorgang"]
+    DB --> OK["Response mit Status"]
+  end
+  subgraph Response["Antwort an User"]
+    OK --> UI_RESPONSE["UI zeigt Bestätigung oder Fehler"]
+  end
+  style Frontend fill:#FFCDD2,stroke:#E53935
+  style Gateway fill:#D1C4E9,stroke:#512DA8
+  style Rollenlogik fill:#C8E6C9,stroke:#388E3C
+  style Microservice fill:#B3E5FC,stroke:#0288D1
+  style Persistenz fill:#FFF9C4,stroke:#FBC02D
+  style Response fill:#EEEEEE,stroke:#757575

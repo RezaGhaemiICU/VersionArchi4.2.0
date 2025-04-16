@@ -1,0 +1,58 @@
+---
+config:
+  look: handDrawn
+  theme: redux
+---
+flowchart TB
+  subgraph Frontend["Frontend (UI Layer)"]
+    UI["Formulare, Dashboard, Rollenbasiert"]
+    UI --> GW["API Call via Gateway"]
+  end
+  subgraph Gateway["API Gateway"]
+    GW --> AUTH["Token & Rolle prüfen"]
+    AUTH --> ROUTE["Routen-Weitergabe an Microservice"]
+  end
+  subgraph Policy["Rollen-/Policy-Logik"]
+    POLICY["Zentrale Prüf-Logik (Custom Policies)"]
+    ROUTE --> POLICY
+    POLICY --> DISPATCH["Erlaubt? → Weiter"]
+  end
+  subgraph Microservices["Microservices (Fachlogik)"]
+    MS1["AuftragService"]
+    MS2["DokumentenService"]
+    MS3["FragebogenService"]
+    MS4["HRService"]
+    DISPATCH --> MS1
+    DISPATCH --> MS2
+    DISPATCH --> MS3
+    DISPATCH --> MS4
+  end
+  subgraph ExecutionService["ExecutionService (interner Orchestrator)"]
+    ORCH["Koordiniert alle Folge-Aktionen"]
+    MS1 --> ORCH
+    ORCH --> MS2
+    ORCH --> MS3
+    ORCH --> MS4
+    ORCH --> RETRY["Retry & DLQ bei Fehler"]
+  end
+  subgraph Eventing["Kommunikation (eventbasiert)"]
+    BUS["Interner EventBus (Kafka-like)"]
+    ORCH --> BUS
+    BUS --> MS2
+    BUS --> MS3
+    BUS --> MON["Logging & Alerting"]
+  end
+  subgraph Persistence["Persistence / Monitoring"]
+    DB1["Datenbank pro Service"]
+    LOG["LogService + Audit"]
+    MS1 --> DB1
+    MS2 --> DB1
+    MON --> LOG
+  end
+  style Frontend fill:#FFCDD2,stroke:#FF8A80
+  style Gateway fill:#D1C4E9,stroke:#9575CD
+  style Policy fill:#C8E6C9,stroke:#66BB6A
+  style Microservices fill:#B3E5FC,stroke:#0288D1
+  style ExecutionService fill:#FFF59D,stroke:#FBC02D
+  style Eventing fill:#E0E0E0,stroke:#9E9E9E
+  style Persistence fill:#F5F5F5,stroke:#BDBDBD

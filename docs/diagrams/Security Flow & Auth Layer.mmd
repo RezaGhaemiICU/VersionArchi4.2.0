@@ -1,0 +1,50 @@
+---
+config:
+  theme: redux
+  layout: grid
+  look: handDrawn
+---
+
+flowchart TD
+  subgraph Client["Client (Browser / App)"]
+    A1["User sends request\n(with JWT or session cookie)"]
+  end
+
+  subgraph LoadBalancer["Load Balancer"]
+    LB["Routes request"]
+  end
+
+  subgraph Gateway["API Gateway"]
+    GW1["JWT prüfen / Token validieren"]
+    GW2["User-Rolle & Rechte prüfen"]
+    GW3["Rate Limiting & IP-Filter\n(Block suspicious patterns)"]
+    R1["→ 401 Unauthorized"]
+    R2["→ 403 Forbidden"]
+  end
+
+  subgraph AuthService["Auth-Service"]
+    AUTH1["Token-Verifizierung"]
+    AUTH2["Token-Generierung (Login)"]
+    AUTH3["Refresh / Logout Logik"]
+    AUTH4["OAuth / SSO Support (optional)"]
+  end
+
+  subgraph Secrets["Secrets Store"]
+    S1["JWT Secret Keys"]
+    S2["OAuth Credentials"]
+  end
+
+  A1 --> LB --> GW1
+  GW1 --> AUTH1 --> S1
+  GW1 -- invalid --> R1
+  GW1 --> GW2
+  GW2 --> GW3
+  GW2 -- unauthorized --> R2
+  GW3 -->|block| R2
+
+  AUTH2 --> S1
+  AUTH3 --> S1
+  AUTH4 --> S2
+
+  classDef layer fill:#E3F2FD,stroke:#2196F3;
+  class Client,LoadBalancer,Gateway,AuthService,Secrets layer;

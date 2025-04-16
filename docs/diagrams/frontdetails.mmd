@@ -1,0 +1,47 @@
+---
+config:
+  theme: neutral
+  layout: TB
+---
+
+flowchart TB
+  subgraph UI["Frontend Layer – Benutzeroberfläche & Client-Logik"]
+
+    ROUTER["Routing & URL-Handling"]
+    AUTH["Login/Token Handling + RoleContext"]
+    LANG["Mehrsprachigkeit (Translation Handler)"]
+    THEME["Theme & Accessibility Handler"]
+    
+    DASH["Dashboard-View: KPIs & Statusübersicht"]
+    FORM["Formulare mit Validierung (Client-Side)"]
+    FILE["Datei-Upload mit Progress & Fehleranzeige"]
+    WIZARD["Step-by-Step Wizards für komplexe Prozesse"]
+    MSG["Benachrichtigungs- & Feedback-System (Toasts, Alerts)"]
+
+    STATE["Lokaler State & globaler ContextStore"]
+    API["API Connector & Error Handling"]
+    CACHE["Client Cache (z. B. für Dropdowns, Filter)"]
+    GUARDS["Route Guards / Zugriffsschutz im UI"]
+
+    NAV["Dynamische Navigation basierend auf Rollen & Rechten"]
+    GUIDE["Onboarding-Tour & Tooltips"]
+
+  end
+
+  ROUTER --> DASH
+  ROUTER --> FORM
+  ROUTER --> WIZARD
+  AUTH --> ROUTER
+  AUTH --> NAV
+  AUTH --> GUARDS
+  FORM --> STATE
+  FILE --> API
+  FORM --> API
+  DASH --> API
+  API --> CACHE
+  API --> MSG
+  CACHE --> FORM
+  STATE --> MSG
+  NAV --> GUIDE
+  LANG --> GUIDE
+  THEME --> GUIDE

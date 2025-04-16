@@ -1,0 +1,43 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+  layout: elk
+---
+flowchart TD
+ subgraph ExecutionService["ExecutionService\n(Interne Kommunikations- & Koordinationszentrale)"]
+        EXEC["Empfängt Event\n(z. B. AuftragGeloescht)"]
+        ROUTE["Identifiziert zuständige Services\nund koordiniert Events"]
+        DLQ["Fehler? → Retry + DLQ + Alerting"]
+  end
+ subgraph Services["Microservices (Unabhängig)"]
+        DOCS["DokumentenService\n- Dokument anlegen, validieren, löschen"]
+        USERS["UserService\n- Nutzerbindung prüfen, löschen, benachrichtigen"]
+        HR["HRService\n- Informationen an HR übermitteln, Bestätigungen holen"]
+        FIN["FinanceService\n- Rechnung prüfen, Kostenstellen verwalten"]
+        FORM["FragebogenService\n- Formulare zuweisen, prüfen, löschen"]
+        NOTI["NotificationService\n- Systemnachricht senden, Benachrichtigen"]
+        VISA["VisaService\n- Visaantrag prüfen, Rückmeldung geben"]
+        SCHOOL["SchoolSearchService\n- Schule finden, Bestätigen"]
+        TEMP["TempHousingService\n- Zwischenunterkunft suchen/buchen"]
+  end
+ subgraph DB["Persistenz"]
+        AUDIT["AuditLogService\n- Alle Aktivitäten loggen"]
+        MON["MonitoringService\n- Technische Metriken & Events"]
+  end
+    EXEC --> ROUTE
+    ROUTE --> DOCS & USERS & HR & FIN & FORM & NOTI & VISA & SCHOOL & TEMP & DLQ
+    DOCS --> AUDIT
+    USERS --> AUDIT
+    HR --> AUDIT
+    FIN --> AUDIT
+    FORM --> AUDIT
+    NOTI --> AUDIT
+    VISA --> AUDIT
+    SCHOOL --> AUDIT
+    TEMP --> AUDIT
+    DLQ --> MON
+    style DLQ stroke:#D50000,stroke-width:2px,stroke-dasharray: 4 2
+    style ExecutionService fill:#C8E6C9,stroke:#388E3C
+    style Services fill:#FFF3E0,stroke:#FF9800
+    style DB fill:#E3F2FD,stroke:#1E88E5

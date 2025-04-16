@@ -1,0 +1,30 @@
+---
+config:
+  theme: redux
+---
+flowchart TD
+  subgraph Rollenlogik & Policy Layer ["Rollenlogik & Custom Policy Layer"]
+    RL1["User Anfrage mit Token & Rolle"]
+    RL2["Policy Resolver (mapped Role ➝ Policies)"]
+    RL3["Permission Engine prüft Policy + Context"]
+    RL4["Policy-Cache (Memory + TTL)"]
+    RL5["Audit Log: Zugriffsanfrage speichern"]
+    RL6["Policy Decision: Allow / Deny"]
+    RL7["Contextual UI Filter: was im UI sichtbar ist"]
+  end
+  subgraph Datenquelle ["Rollen- & Policy-Daten"]
+    DB1["DB: Rollen, Policies, Rechte, Scopes"]
+  end
+  subgraph Frontend
+    FE1["UI-Komponenten-Anfrage"]
+    FE2["Nur erlaubte Komponenten anzeigen"]
+  end
+  RL1 --> RL2
+  RL2 --> RL4
+  RL4 --> RL3
+  RL3 --> RL5
+  RL3 --> RL6
+  RL6 --> RL7
+  RL7 --> FE2
+  FE1 --> RL1
+  DB1 --> RL2

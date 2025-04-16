@@ -1,0 +1,47 @@
+---
+config:
+  theme: redux
+  layout: elk
+  look: handDrawn
+---
+flowchart TD
+ subgraph ClientLayer["Client (Browser Only)"]
+        A1["Endnutzer\n→ Kein Plugin nötig\n→ Kein Agent\n→ Kein VPN"]
+  end
+ subgraph GatewayLayer["API Gateway / Zugriffsschicht"]
+        B1["HTTPS / REST / Webhook\nStandardprotokolle\nSichere Authentifizierung"]
+  end
+ subgraph FrontendLayer["Frontend (Web)"]
+        C1["100 % browserfähig\nResponsive UI\nKeine Localhost-Abhängigkeiten"]
+  end
+ subgraph ServiceLayer["Microservices"]
+        D1["Service A (z. B. HR-Logik)"]
+        D2["Service B (z. B. Dokumente)"]
+        D3["Service C (z. B. Case Handling)"]
+  end
+ subgraph ExternalSystems["Externe APIs (Integration)"]
+        E1["CRM (Webhook/REST)"]
+        E2["Government API"]
+        E3["Email / SMTP"]
+  end
+ subgraph DeploymentLayer["CI/CD & Deployment"]
+        F1["Pipeline: Build & Deploy"]
+        F2["Secrets Mgmt"]
+        F3["Containerisierung\n→ Keine lokale Installation"]
+  end
+ subgraph Observability["Monitoring & Logging"]
+        G1["Zentrales Logging"]
+        G2["Dashboard-basiertes Monitoring"]
+  end
+    A1 --> B1
+    B1 --> C1
+    C1 --> D1 & D2 & D3
+    D1 --> E1
+    D2 --> E2
+    D3 --> E3
+    F1 --> D1 & D2 & D3
+    G1 --> D1 & D2 & D3
+    G2 --> D1 & D2 & D3
+    F2 --> D1 & D2 & D3
+    classDef clean fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
+    classDef section fill:#FFF3E0,stroke:#FF9800,stroke-width:1px

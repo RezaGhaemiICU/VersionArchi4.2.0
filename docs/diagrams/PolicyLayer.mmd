@@ -1,0 +1,58 @@
+---
+config:
+  look: handDrawn
+  theme: redux
+---
+flowchart TD
+  subgraph Rollen["User-Rollen"]
+    R1["Assignee"]
+    R2["HR Manager"]
+    R3["Immigration Specialist"]
+    R4["Account Manager"]
+    R5["Admin"]
+  end
+  subgraph Policies["Access Policies"]
+    P1["Assignee-Policy"]
+    P2["HR-Policy"]
+    P3["Immigration-Policy"]
+    P4["AccountMgr-Policy"]
+    P5["Admin-Policy"]
+  end
+  subgraph Permissions["Permissions"]
+    PER1["view_own_case"]
+    PER2["edit_own_documents"]
+    PER3["view_all_cases"]
+    PER4["edit_case_status"]
+    PER5["view_kpi"]
+    PER6["manage_users"]
+    PER7["change_config"]
+  end
+  subgraph Features["Frontend Features"]
+    F1["Case Overview"]
+    F2["Document Upload"]
+    F3["Case Status Panel"]
+    F4["KPI Dashboard"]
+    F5["User Management"]
+    F6["System Settings"]
+  end
+  R1 --> P1
+  R2 --> P2
+  R3 --> P3
+  R4 --> P4
+  R5 --> P5
+  P1 --> PER1 & PER2
+  P2 --> PER1 & PER3
+  P3 --> PER3 & PER4
+  P4 --> PER3 & PER5
+  P5 --> PER3 & PER4 & PER5 & PER6 & PER7
+  PER1 --> F1
+  PER2 --> F2
+  PER3 --> F1
+  PER4 --> F3
+  PER5 --> F4
+  PER6 --> F5
+  PER7 --> F6
+  style Rollen fill:#E3F2FD,stroke:#42A5F5
+  style Policies fill:#FFF9C4,stroke:#FBC02D
+  style Permissions fill:#E0F2F1,stroke:#009688
+  style Features fill:#F3E5F5,stroke:#8E24AA

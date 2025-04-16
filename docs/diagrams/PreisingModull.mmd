@@ -1,0 +1,44 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+  layout: elk
+---
+flowchart TD
+ subgraph Frontend["Frontend UI"]
+        FE1["Preisregel-Ansicht"]
+        FE2["Manuelle Preisänderung mit Begründung"]
+  end
+ subgraph Gateway["Gateway"]
+        GW["Validierung & Weiterleitung"]
+  end
+ subgraph PriceEngine["Preisregel-Engine"]
+        PE1["Service & Land erkennen"]
+        PE2["Regel anwenden / prüfen"]
+        PE3["Manuelle Änderung → Genehmigungsprozess"]
+  end
+ subgraph CurrencyUpdater["Währungsmodul"]
+        CUR1["Täglicher Abruf von Wechselkursen"]
+        CUR2["Wechselkurs in Datenbank speichern"]
+        CUR3["Log & Alert bei Schwankungen"]
+  end
+ subgraph ApprovalWorkflow["Freigabeprozess"]
+        AP1["Manager erhält Anfrage"]
+        AP2["Entscheidung: akzeptieren / ablehnen"]
+  end
+ subgraph Persistenz["Datenbank + Logs"]
+        DB1["Preishistorie speichern"]
+        DB2["Wechselkurse speichern"]
+        DB3["Audit-Logs"]
+  end
+    FE1 --> GW
+    GW --> PE1 & PE3
+    PE1 --> PE2
+    PE2 --> DB1
+    FE2 --> GW
+    PE3 --> AP1
+    AP1 --> AP2
+    AP2 --> DB1
+    CUR1 --> CUR2
+    CUR2 --> DB2 & CUR3
+    CUR3 --> DB3

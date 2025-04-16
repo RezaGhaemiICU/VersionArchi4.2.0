@@ -1,0 +1,44 @@
+---
+config:
+  theme: redux
+  layout: fixed
+  look: handDrawn
+---
+flowchart TD
+ subgraph Microservices["Microservices z.B. namen"]
+        MS1["Frontend-Service"]
+        MS2["Auth-Service"]
+        MS3["Execution-Service"]
+        MS4["Assignment-Service"]
+        MS5["HR-Service"]
+        MS6["Document-Service"]
+  end
+ subgraph Logging["Central Logging (Sentry / ELK)"]
+        LOG1["App Logs"]
+        LOG2["Error Traces"]
+        LOG3["User Actions (Audit Trail)"]
+  end
+ subgraph Metrics["Monitoring (Prometheus / Grafana)"]
+        MET1["Service-Level Metrics\n(e.g. CPU, Memory, Requests)"]
+        MET2["Custom Business KPIs\n(e.g. Process Duration)"]
+        MET3["Uptime & Availability"]
+  end
+ subgraph Alerting["Alerting & Notifications"]
+        A1["Sentry Alerts"]
+        A2["z.B. Prometheus Alertmanager"]
+        A3["Slack / Email / etc."]
+  end
+    MS1 --> LOG1 & MET1
+    MS2 --> LOG1 & MET1
+    MS3 --> LOG1 & MET1 & MET2
+    MS4 --> LOG1 & MET1 & MET2
+    MS5 --> LOG1 & MET1
+    MS6 --> LOG1 & MET1
+    LOG1 --> LOG2
+    LOG2 --> A1
+    MET1 --> A2
+    MET2 --> A2
+    MET3 --> A2
+    A1 --> A3
+    A2 --> A3
+    classDef layer fill:#FFF3E0,stroke:#FB8C00,stroke-width:1px

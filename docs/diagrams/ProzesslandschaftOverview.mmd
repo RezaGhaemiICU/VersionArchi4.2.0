@@ -1,0 +1,53 @@
+---
+config:
+  theme: default
+  layout: TB
+---
+
+flowchart TB
+  subgraph Kunde
+    A1["Kunde stellt Relocation-Anfrage über Kundenportal"]
+  end
+
+  subgraph Frontend ["Frontend & Gateway"]
+    B1["Request: /api/auftrag/create"]
+    B2["Auth & Role Check"]
+  end
+
+  subgraph Backend ["Microservices Layer"]
+    C1["AuftragService: Auftrag erstellen"]
+    C2["PersonService: Assignee-Check / Erstellen"]
+    C3["DocumentService: Dokumente initialisieren"]
+    C4["WorkflowService: initialer Workflow starten"]
+    C5["AuditService: Log-Eintrag"]
+    C6["EventBus: AuftragErstellt"]
+  end
+
+  subgraph Prozess ["Prozessautomatisierung"]
+    D1["ExecutionService: Event empfängt"]
+    D2["Automatische Aufgabenverteilung"]
+    D3["Dokumentenprüfung durch Service"]
+    D4["Workflows triggern weitere Events"]
+    D5["Fristen, Notifications, DLQ bei Fehler"]
+  end
+
+  subgraph Relocation ["Relocation Services"]
+    E1["HomeSearchService"]
+    E2["SchoolSearchService"]
+    E3["TemporaryHousingService"]
+    E4["Anmeldung & WelcomeTour"]
+  end
+
+  subgraph Abschluss ["Abschluss & Abrechnung"]
+    F1["Finaler Workflow abgeschlossen"]
+    F2["AuditService: Abschlusslog"]
+    F3["FinanceService: Rechnungsdaten generieren"]
+    F4["InvoiceService: Rechnung erzeugen & versenden"]
+  end
+
+  A1 --> B1
+  B1 --> B2 --> C1
+  C1 --> C2 --> C3 --> C4 --> C5 --> C6
+  C6 --> D1 --> D2 --> D3 --> D4 --> D5
+  D5 --> E1 & E2 & E3 & E4
+  E4 --> F1 --> F2 --> F3 --> F4

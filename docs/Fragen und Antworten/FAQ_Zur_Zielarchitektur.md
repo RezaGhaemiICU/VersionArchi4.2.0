@@ -219,4 +219,76 @@ Datenschutz ist automatisiert technisch umgesetzt.
 
 ---
 
+
+### 16. Ist der Execution Service ein Single Point of Failure?
+**Antwort:** Nein. Der Execution Service ist stateless und läuft in mehreren Instanzen parallel.  
+**Beispiel:** Fällt eine Instanz während der Bearbeitung aus, übernimmt eine andere nahtlos über den Eventbus das aktuelle Saga.
+
+---
+
+### 17. Sind Kompensationsschritte blockierend oder asynchron?
+**Antwort:** Kompensationen laufen asynchron über Events – der Nutzer merkt davon nichts.  
+**Beispiel:** Wenn ein Auftrag fehlschlägt, wird automatisch ein „Undo“-Event für den betroffenen Service ausgelöst.
+
+---
+
+### 18. Warum wurde kein Tool wie Temporal oder Camunda verwendet?
+**Antwort:** Um vollständige Kontrolle, einfache Wartbarkeit und Flexibilität zu garantieren, wurde bewusst ein leichtgewichtiger, eigener Orchestrator gebaut.  
+**Beispiel:** Die Prozessdefinition erfolgt per YAML und wird vom Execution Service dynamisch interpretiert – ganz ohne Vendor Lock-in.
+
+---
+
+### 19. Können mehrere Services gleichzeitig eine Saga orchestrieren?
+**Antwort:** Nein. Die Orchestrierung ist zentral im Execution Service verankert.  
+**Beispiel:** Jeder Schritt enthält eine eindeutige Event- und Process-ID, wodurch parallele oder doppelte Ausführungen verhindert werden.
+
+---
+
+### 20. Wie wird Domain-Driven Design (DDD) umgesetzt?
+**Antwort:** Jeder Business-Bereich ist als eigenständiger Bounded Context konzipiert.  
+**Beispiel:** Der „Relocation“-Service kennt keine Details über Visa oder Housing – diese sind durch Events entkoppelt.
+
+---
+
+### 21. Wie funktioniert die Retention Policy im Eventbus?
+**Antwort:** Nachrichten bleiben so lange bestehen, bis sie erfolgreich verarbeitet werden. Fehlerhafte Events wandern in die DLQ.  
+**Beispiel:** Wenn ein Service beim ersten Versuch scheitert, wird der Event erneut verarbeitet. Nach X Versuchen geht er in die Analyse.
+
+---
+
+### 22. Warum ein eigener Orchestrator statt Standardlösung?
+**Antwort:** Um flexibel auf Geschäftslogik reagieren zu können, dynamisch Sagas zu definieren und den Overhead gering zu halten.  
+**Beispiel:** Neue Prozessabläufe können live über Konfigurationen im Admin Panel eingepflegt werden – ganz ohne Code-Änderung.
+
+---
+
+### 23. Was passiert bei einem abgebrochenen SAGA?
+**Antwort:** Jeder Zustand wird gespeichert. Das System erkennt hängende Prozesse und setzt sie kontrolliert fort.  
+**Beispiel:** Wenn während eines Onboardings der Execution-Service neu startet, wird der Zustand geladen und automatisch weitergeführt.
+
+---
+
+### 24. Kann ein User bei erneutem Login alle bisherigen Daten einsehen?
+**Antwort:** Ja, sofern die Rolle und die Policy Zugriff erlauben.  
+**Beispiel:** Ein Assignee sieht nur seine Fälle, aber keine HR-Daten – selbst nach Logout/Login bleibt die Kontrolle aktiv.
+
+---
+
+### 25. Warum wurde Microservice-Architektur gewählt?
+**Antwort:** Um Funktionen unabhängig zu skalieren, zu entwickeln und auszuliefern.  
+**Beispiel:** Der Dokumentenservice wurde eigenständig aktualisiert, ohne dass andere Services gestört wurden.
+
+---
+
+### 26. Was passiert bei Datenkorruption in einem Service?
+**Antwort:** Datenintegrität wird durch Event-Replay aus dem Eventstore sichergestellt.  
+**Beispiel:** Wenn eine Datenbank fehlerhafte Werte enthält, wird der Zustand durch Wiedereinspielung der Events neu aufgebaut.
+
+---
+
+### 27. Reicht Eventual Consistency wirklich für alles?
+**Antwort:** Ja, weil das System auf Resilienz und Wiederherstellung ausgelegt ist.  
+**Beispiel:** Wenn ein Zwischenschritt bei der Registrierung fehlschlägt, wird er nach Recovery erneut angestoßen – ohne Inkonsistenz.
+
+---
 **Stand:** 16. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.

@@ -1,82 +1,66 @@
-# AiCUnet – KI-gestützte ( Bereite ) Architekturplattform
+# Zielarchitektur-Dokumentation (v4.2.0)
 
-FÜR GENAUERE INFORMATIONEN UNBEDINGT DIE INHALTE VON docs/ FOLDER ZU LESEN! 
-README IST NICHT UPDATE
+Willkommen zur technischen Übersicht unserer Zielarchitektur. Dieses Repository dient als zentrale Sammlung aller relevanten Informationen rund um unsere modulare, skalierbare und zukunftssichere Plattformstruktur.
 
-> Eine modulare, skalierbare und automatisierte Architektur für HR-Tech & Global Mobility Services als Herz des Unternehmens ICUnet Ag.
+## 🔧 Ziel & Struktur
 
----
+Ziel ist es, eine robuste, wartbare und flexibel erweiterbare Softwarelösung zu schaffen, die folgende Eigenschaften erfüllt:
 
-##  Übersicht
-
-Diese Repository enthält eine vollständige, dokumentierte Referenz-Architektur für ein moderne, Microservice-basierte Software. 
-
-kommt noch weitere Informationen in der nahe Zukunft.
-
----
-
-##  Architekturdiagramm
-
-Architektur ist modular aufgebaut, Event-basiert und vollständig dokumentiert:
-
-![AiCUnet Architektur](./mermaid/aicunet-architektur.png)
-
-Automatisch generieren via [`generate-diagrams.sh`](./mermaid/generate-diagrams.sh)
+- **Modular** aufgebaut (Microservice-Prinzipien)
+- **Domain-Driven** konzipiert (Bounded Contexts)
+- **Event-Driven** gesteuert (interne Kommunikation über Eventbus)
+- **Policy- und Rollenbasiert** (feingranulare Zugriffssteuerung)
+- **Skalierbar & Cloud-fähig** (CI/CD & automatisierte Deployments)
 
 ---
 
-## Struktur
+## 📐 Architekturebenen (Visualisiert)
 
-```bash
-├── .github/workflows/             
-│   └── ci.yml
-├── docs/                         
-│   ├── automation.md             
-│   ├── CICD.md                   
-│   ├── datenbanken.md            
-│   ├── error-handling.md         
-│   ├── frontend.md               
-│   ├── gateway.md                
-│   ├── index.md                  
-│   ├── microservices.md          
-│   ├── monitoring.md             
-│   ├── saga.md                   
-│   └── security.md               
-├── mermaid/                      
-│   ├── aicunet-architektur.mmd   
-│   ├── generate-diagrams.sh      
-│   └── aicunet-architektur.png   
-└── README.md
-```
+![Architekturübersicht](./mermaid/overviewlayers.png)
+
+> Eine detaillierte Version ist unter `./mermaid/overviewlayers.mmd` zu finden.
 
 ---
 
-## Technologien
+## 📁 Dokumentationsstruktur
 
-- **Frontend**: React + TailwindCSS + React Router
-- **Backend**: Node.js + Express / NestJS
-- **Event Bus**: intern / optional RabbitMQ / Kafka
-- **Workflow Engine**: intern und simple
-- **Security**: JWT + Role/Claim Check + optional OAuth2
-- **Logging**: Winston / ELK / Prometheus
-- **Datenbanken**: PostgreSQL, Audit-Trail, Replikate
-
----
-
-## Architektur basiert auf:
-
-- Separation of Concerns
-- Domain Driven Design (leichtgewichtig)
-- Kein harter Monolith
-- Events instead of direkter Coupling
-- Wiederverwendbarkeit, Testbarkeit, Erweiterbarkeit
+| Bereich | Beschreibung |
+|--------|--------------|
+| `mermaid/` | Alle Mermaid-Diagramme (technische Flows, Layer, Prozesse etc.) |
+| `docs/` | Markdown-Dateien zu Layern, Policies, Services, Security etc. |
+| `glossary/` | Technische Begriffsdefinitionen (`GLOSSARY.md`) |
+| `faq/` | Antworten auf häufige technische Fragen (`00_FAQ_Zur_Zielarchitektur.md`) |
 
 ---
 
-## Lizenz & Nutzung
+## 🧩 Enthaltene Kernkonzepte
 
-Kommt noch! 
+- **Execution-Service als zentrales Orchestrierungselement**
+- **Fehlertoleranz durch Retry & DLQ**
+- **Trennung von Business- und Systemlogik**
+- **Flexible Service-Erweiterung ohne bestehende Services zu verändern**
+- **Sicherheitslayer mit Token, Rate-Limiting und Audit-Logs**
+- **Entwicklerfreundliche Umgebung für Simulation & Testing**
+
 ---
 
- > Für Fragen direkt Email an rezaghaemijob@gmail.com.
+## 🔍 Einstieg für Reviewer
 
+Wenn Sie neu in dieses Projekt einsteigen, empfehlen wir folgende Reihenfolge:
+
+1. [📘 `overviewlayers.mmd`](./mermaid/overviewlayers.mmd)  
+   Erste Übersicht der gesamten Architektur
+
+2. [📄 `00_FAQ_Zur_Zielarchitektur.md`](docs/Fragen und Antworten/FAQ_Zur_Zielarchitektur.md)  
+   Antworten auf typische Fragen von Dev & Management
+
+3. [📚 `GLOSSARY.md`](./docs/Fragen%20und%20Antworten/Glossary.md)  
+   Begriffsklärungen & technische Definitionen
+
+---
+
+## 🤝 Kontakt & Mitwirken
+
+Für technische Fragen oder neue Ideen bitte issue melden, damit wir alles sauber dokumentiert haben können.
+
+---

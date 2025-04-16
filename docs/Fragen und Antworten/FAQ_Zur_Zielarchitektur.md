@@ -258,7 +258,7 @@ Datenschutz ist automatisiert technisch umgesetzt.
 
 ### 22. Warum ein eigener Orchestrator statt Standardlösung?
 **Antwort:** Um flexibel auf Geschäftslogik reagieren zu können, dynamisch Sagas zu definieren und den Overhead gering zu halten.  
-**Beispiel:** Neue Prozessabläufe können live über Konfigurationen im Admin Panel eingepflegt werden – ganz ohne Code-Änderung.
+**Beispiel:** Neue Prozessabläufe können live über Konfigurationen im Admin Panel eingepflegt werden, ganz ohne Code-Änderung.
 
 ---
 

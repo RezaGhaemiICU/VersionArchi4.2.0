@@ -1,0 +1,27 @@
+---
+config:
+  theme: neutral
+  look: handDrawn
+---
+
+flowchart TD
+    A["User Interface\(Web/App)"]
+    B["Gateway\(Auth, Rate Limit)"]
+    C["Execution Service\(Event Orchestrierung"]
+    D["EventBus\(Async Kommunikation)"]
+    E["Microservices\(Dokumente, Aufträge, etc.)"]
+    F["External API Layer"]
+    G["MCP Bridge (Ready)"]
+    H["Externe KI-Agenten oder Enterprise Connections"]
+
+    A --> B --> C
+    C --> D
+    D --> E
+    E --> D
+    D --> F
+    F --> G
+    G --> H
+
+    style G stroke:#f39c12,stroke-width:3px,color:#000
+    style H stroke:#2980b9,stroke-width:2px
+    style F stroke-dasharray: 5 5

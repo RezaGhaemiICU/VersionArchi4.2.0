@@ -11,6 +11,7 @@ sequenceDiagram
   participant EventBus
   participant DB
   participant DLQ
+  participant Admin
   User->>Frontend: Auftrag löschen klicken
   Frontend->>Gateway: DELETE /auftrag/{id}
   Gateway->>ExecutionService: Auftrag löschen starten
@@ -19,10 +20,12 @@ sequenceDiagram
   ExecutionService->>DB: Markiere als "PENDING_DELETE"
   ExecutionService->>DB: Prüfe Abhängigkeiten (Dokumente, Services, etc.)
   alt Keine Abhängigkeiten
-    ExecutionService->>DB: Auftrag endgültig löschen
-    ExecutionService->>EventBus: emit "auftrag.deleted"
+    ExecutionService->>DB: Soft Delete (RecycleBin Eintrag)
+    Note right of DB: Timer startet (z. B. 7 Tage)
+    ExecutionService->>EventBus: emit "auftrag.soft_deleted"
   else Fehler/Timeout
     ExecutionService->>EventBus: emit "auftrag.delete.failed"
     EventBus->>DLQ: Speichern zur späteren Analyse
+    DLQ->>Admin: Alert mit Fehlergrund
   end
-  ExecutionService->>Frontend: Status zurückgeben (success/failure)
+  ExecutionService->>Frontend: z.B. Success-Nachricht für User

@@ -125,9 +125,22 @@ Ein Mechanismus, mit dem Services sich selbst in einer Infrastruktur registriere
 ## Infrastructure as Code  
 Die Infrastruktur (Server, Datenbanken, Netzwerke) wird wie Code behandelt: versioniert, dokumentiert und automatisiert aufgesetzt. Erhöht Stabilität und Wiederholbarkeit.
 
----
+**MCP (Manufacturing Connect Protocol)**  
+Ein offener, standardisierter Kommunikationsrahmen, der es externen Systemen und Agenten erlaubt, direkt mit Industrie- oder Servicesystemen zu interagieren – unabhängig vom Anbieter.
+
+**MCP-Agent**  
+Ein externer digitaler Agent (z. B. KI-Service), der auf MCP basiert und über Events oder Requests mit dem Host-System interagiert.
+
+**MCP-kompatibel**  
+Bezeichnet ein System, das MCP-konforme Schnittstellen und Kommunikationsmuster unterstützt – meist über Events, REST oder MQTT.
+
+**Open API Interface**  
+Die technische Brücke zwischen unserem System und der MCP-Schnittstelle. Ermöglicht eine sichere Kommunikation über standardisierte Datenformate.
+
+**Gateway-Erweiterung**  
+Modul zur Integration von MCP-Agenten in unser bestehendes Gateway, mit Authentifizierung, Logging und Policy-Prüfung.
+
 
 ## Hinweis  
 Diese Begriffe sind integraler Bestandteil unserer Architekturstrategie. Die klare Definition dieser Begriffe hilft dabei, technische Konzepte verständlich zu machen.
-
-**Stand:** 16. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.
+**Stand:** 17. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.

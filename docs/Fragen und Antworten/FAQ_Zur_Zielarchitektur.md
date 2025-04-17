@@ -291,4 +291,37 @@ Datenschutz ist automatisiert technisch umgesetzt.
 **Beispiel:** Wenn ein Zwischenschritt bei der Registrierung fehlschlägt, wird er nach Recovery erneut angestoßen – ohne Inkonsistenz.
 
 ---
-**Stand:** 16. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.
+## 28. Ist das System MCP-kompatibel?
+
+Ja, unsere Architektur ist offen und modular gestaltet, wodurch sie problemlos mit MCP-Standards kommunizieren kann. Die Anbindung erfolgt über unsere standardisierte Open-API-Schnittstelle.
+---
+## 29. Müssen bestehende Komponenten ersetzt werden?
+
+Nein. Bestehende Services können über das Gateway erweitert werden, ohne bestehende interne Prozesse zu beeinträchtigen. Die Verbindung erfolgt über ein dediziertes MCP-kompatibles Interface-Modul.
+---
+## 30. Wie läuft die Kommunikation mit MCP ab?
+
+Die Kommunikation erfolgt über ein standardisiertes Messaging-Protokoll. Unsere EventBus-Architektur erlaubt es, externe Agenten sicher und kontrolliert über Events anzubinden.
+---
+### Beispiel:
+
+Ein externer KI-Agent sendet eine Anfrage zum Erhalt einer Fallübersicht:
+- MCP-Agent → EventBus → Execution Service → DB → EventBus → MCP-Agent
+
+Dabei wird das bestehende Rechte- und Sicherheitssystem vollständig eingehalten.
+---
+## 31. Wie wird der Zugriff kontrolliert?
+
+Zugriffe von MCP-Agenten werden wie alle externen Zugriffe über das Gateway geprüft:
+- Token-basierte Authentifizierung
+- Logging & Audit-Trail
+- Policy-basiertes Zugriffskonzept
+
+## 32. Ist die Integration optional?
+
+Ja, die MCP-Schnittstelle ist entkoppelt und wird nur bei Bedarf aktiviert. Für bestehende Kunden ändert sich nicht.
+
+
+---
+
+**Stand:** 17. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.

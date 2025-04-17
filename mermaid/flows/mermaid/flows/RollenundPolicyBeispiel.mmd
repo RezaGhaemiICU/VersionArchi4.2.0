@@ -1,0 +1,21 @@
+---
+config:
+  theme: neutral
+  look: handDrawn
+---
+sequenceDiagram
+  participant User as Benutzer (z. B. HR-Manager)
+  participant UI as Benutzeroberfläche
+  participant Gateway as API-Gateway
+  participant Auth as Auth-Service
+  participant RoleSvc as Rollen- & Policy-Service
+  participant UIEngine as UI-Komponentenlogik
+  User->>UI: Öffnet die Fallansicht
+  UI->>Gateway: Anfrage mit Token
+  Gateway->>Auth: Token validieren
+  Auth-->>Gateway: OK + Rolleninfo
+  Gateway->>RoleSvc: Hole Policies zu Rolle
+  RoleSvc-->>Gateway: Liste von Berechtigungen
+  Gateway-->>UI: Antwort + Berechtigungen
+  UI->>UIEngine: Baue Interface basierend auf Rechten
+  UIEngine-->>User: Zeigt erlaubte Funktionen (z. B. Dokumente hochladen)

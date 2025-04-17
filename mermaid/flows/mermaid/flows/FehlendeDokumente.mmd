@@ -1,0 +1,25 @@
+---
+config:
+  theme: neutral
+  look: handDrawn
+---
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant Gateway
+  participant ExecutionService
+  participant EventBus
+  participant HR-Service
+  participant DLQ
+  User->>Frontend: Fall öffnen
+  Frontend->>Gateway: GET /case/{id}/documents
+  Gateway->>ExecutionService: Anfrage "fehlende Dokumente prüfen"
+  ExecutionService->>EventBus: emit "document.check.requested"
+  EventBus->>HR-Service: Sende Anfrage
+  HR-Service->>ExecutionService: Antwort mit fehlenden Dokumenten
+  ExecutionService->>Frontend: Zeige fehlende Dokumente in UI
+  alt Fehler oder Timeout
+    ExecutionService->>EventBus: emit "document.check.failed"
+    EventBus->>DLQ: Speichern zur Analyse
+    ExecutionService->>Frontend: Zeige Fehlerhinweis
+  end

@@ -1,0 +1,35 @@
+---
+config:
+  theme: neutral
+  layout: top-down
+  look: handDrawn
+---
+sequenceDiagram
+  autonumber
+  participant U as User (Assignee/HR)
+  participant UI as Frontend (Formular)
+  participant GW as Gateway
+  participant EX as Execution Service (SAGA)
+  participant EB as EventBus
+  participant HR as HR-Service
+  participant HO as Housing-Service
+  participant DB as Saga Store (DB)
+  participant DLQ as Dead Letter Queue
+  U->>UI: Formular ausfüllen
+  UI->>GW: POST /request/new
+  GW->>EX: Anfrage starten
+  EX->>DB: SAGA mit Status "Init" speichern
+  EX->>EB: Emit event "request_created"
+  EB-->>HR: prüfen Budget & Zustimmung
+  EB-->>HO: starten Wohnungssuche
+  HR->>EB: emit "budget_ok" oder "abgelehnt"
+  HO->>EB: emit "wohnungen_gefunden" oder "nicht_verfügbar"
+  EB-->>EX: sammeln Antworten
+  EX->>DB: Status aktualisieren
+  alt Alle Services antworten positiv
+    EX->>EB: emit "request_completed"
+    EB-->>UI: UI aktualisieren
+  else Fehler oder Timeout
+    EB->>DLQ: Event speichern
+    EX->>EX: Retry oder Compensation auslösen
+  end

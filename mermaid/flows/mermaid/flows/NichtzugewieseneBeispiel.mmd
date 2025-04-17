@@ -1,0 +1,25 @@
+---
+config:
+  theme: neutral
+  look: handDrawn
+---
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant Gateway
+  participant ExecutionService
+  participant EventBus
+  participant HR-Service
+  participant DLQ
+  User->>Frontend: Dashboard öffnen
+  Frontend->>Gateway: Anfrage auf offene Fälle
+  Gateway->>ExecutionService: GET /cases/unassigned
+  ExecutionService->>EventBus: emit "cases.unassigned.requested"
+  EventBus->>HR-Service: Anfrage auf unzugewiesene Fälle
+  HR-Service->>ExecutionService: Liste offener, nicht zugewiesener Fälle
+  ExecutionService->>Frontend: Darstellung im UI
+  alt Fehlerfall
+    ExecutionService->>EventBus: emit "cases.unassigned.failed"
+    EventBus->>DLQ: Fehlerprotokollierung
+    ExecutionService->>Frontend: Anzeige einer Fehlernachricht
+  end

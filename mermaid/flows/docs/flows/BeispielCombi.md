@@ -18,7 +18,7 @@ sequenceDiagram
   participant DocumentService
   participant DLQ
 
-  Note over UI,ExecutionService: Auftrag löschen (Rot)
+  Note over UI,ExecutionService: Auftrag löschen 
   UI->>Gateway: DELETE Auftrag
   Gateway->>ExecutionService: deleteAuftrag(ID)
   ExecutionService->>AuftragService: prüfe + lösche Auftrag
@@ -31,7 +31,7 @@ sequenceDiagram
   ExecutionService-->>UI: Antwort OK/Fehler
 
   %% Fehlende Dokumente
-  Note over UI,DokumentService: Fehlende Dokumente abrufen (Grün)
+  Note over UI,DokumentService: Fehlende Dokumente abrufen 
   UI->>Gateway: GET fehlende Dokumente
   Gateway->>ExecutionService: fetchMissingDocs(ID)
   ExecutionService->>AuftragService: Auftragsdetails
@@ -41,7 +41,7 @@ sequenceDiagram
   ExecutionService-->>UI: Rückgabe Liste
 
   %% Unassigned Fälle
-  Note over UI,ExecutionService: Nicht zugewiesene Fälle (Blau)
+  Note over UI,ExecutionService: Nicht zugewiesene Fälle 
   UI->>Gateway: GET unassigned Fälle
   Gateway->>ExecutionService: loadUnassigned()
   ExecutionService->>AuftragService: WHERE assigned = false

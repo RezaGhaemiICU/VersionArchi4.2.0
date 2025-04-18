@@ -1,0 +1,20 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+    A[User requests report from Dashboard] --> B[Frontend sends request to Report API]
+    B --> C[Auth-Service validates JWT & Role]
+    C --> D[Determine report type based on user role]
+    D --> E{Is real-time data required?}
+    E -- Yes --> F[Query live data from Data Aggregation Service]
+    E -- No --> G[Fetch cached report from Report DB]
+    F --> H[Generate dynamic report structure]
+    G --> H
+    H --> I["Format report (PDF, XLSX, JSON)"]
+    I --> J[Store report metadata in Report DB]
+    J --> K[Return download link or open viewer in frontend]
+    K --> L[Trigger notification or logging for audit trail]
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style L fill:#bbf,stroke:#333,stroke-width:1px

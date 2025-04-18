@@ -1,0 +1,22 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+    A[User is logged in as 'Immigration Manager'] --> B[Clicks on 'Switch Role']
+    B --> C[Frontend sends switch request with current JWT]
+    C --> D[Auth-Service verifies token and loads allowed roles]
+    D --> E[System detects: Immigration Manager, Marketing Manager]
+    E --> F[User selects 'Marketing Manager']
+    F --> G{Pending tasks in current role?}
+    G -- Yes --> H[Warn user about unsaved progress]
+    G -- No --> I[Continue switch]
+    H --> I
+    I --> J[Generate new JWT with 'Marketing Manager' role]
+    J --> K[Invalidate old token/session]
+    K --> L[Frontend refreshes context for 'Marketing Manager']
+    L --> M[New dashboard, menus, rights applied]
+    M --> N[Log role switch: from Immigration → Marketing, with timestamp/IP]
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style N fill:#bbf,stroke:#333,stroke-width:1px

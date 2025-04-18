@@ -1,0 +1,22 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+    A[Admin opens Audit Dashboard] --> B["Selects filter criteria (user, action, date range, role)"]
+    B --> C[Frontend sends query to Audit API]
+    C --> D[JWT validated by Auth-Service]
+    D --> E["Check admin permissions (read_audit_logs)"]
+    E --> F{Is access allowed?}
+    F -- No --> G[Return 403 Forbidden]
+    F -- Yes --> H[Query Audit Log DB with filters]
+    H --> I[Fetch logs: logins, role switches, data edits, access attempts]
+    I --> J[Group and sort logs by user or timestamp]
+    J --> K{Suspicious activity detected?}
+    K -- Yes --> L[Flag entry and display alert]
+    K -- No --> M[Render audit table in frontend]
+    L --> N[Optional: Trigger alert to Super Admin]
+    M --> O[Enable export: CSV, PDF, JSON]
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style O fill:#bbf,stroke:#333,stroke-width:1px

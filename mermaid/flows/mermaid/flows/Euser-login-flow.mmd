@@ -1,0 +1,23 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+  layout: fixed
+---
+flowchart TD
+    A["User opens login page"] --> B["Enter email/username"]
+    B --> C["Receive unique OTP via Email"]
+    C --> D["Enter OTP"]
+    D --> E{"OTP valid?"}
+    E -- No --> F["Show error message and retry"]
+    E -- Yes --> G["Fetch user roles from DB"]
+    G --> H{"Multiple roles?"}
+    H -- Yes --> I["Show role selection UI"]
+    H -- No --> J["Auto-assign default role"]
+    I --> K["Selected role assigned"]
+    J --> K
+    K --> L["Generate access token (JWT)"]
+    L --> M["Redirect to dashboard based on role"]
+    M --> N["Session tracking and user context initialized"]
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style N fill:#bbf,stroke:#333,stroke-width:1px

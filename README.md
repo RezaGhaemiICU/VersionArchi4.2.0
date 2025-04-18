@@ -22,6 +22,55 @@ Ziel ist es, eine robuste, wartbare und flexibel erweiterbare Softwarelösung zu
 
 ---
 
+<pre><code>
+📦 VersionArchi4.2.0
+├── README.md
+├── package.json
+├── jest.config.js
+├── docs/
+│   ├── index.md
+│   ├── automation.md
+│   ├── datenbanken.md
+│   ├── microservices.md
+│   ├── monitoring.md
+│   ├── reporting.md
+│   ├── saga.md
+│   ├── security.md
+│   ├── execution-flow.md
+│   ├── error-handling.md
+│   ├── frontend.md
+│   ├── gateway.md
+│   ├── use-cases.md
+│   ├── flows/
+│   │   ├── user-login-flow.md
+│   │   ├── role-switching-flow.md
+│   │   ├── admin-audit-flow.md
+│   │   └── ...
+│   ├── descriptions/
+│   │   ├── AccessRolePolicyLayer.md
+│   │   ├── Businesslayer.md
+│   │   ├── Monitoring & Observability.md
+│   │   └── ...
+│   ├── diagrams/
+│   │   ├── AccessRolePolicyLayer.mmd
+│   │   ├── GatewayDetails.mmd
+│   │   └── ...
+│   └── Fragen und Antworten/
+│       ├── FAQ_Zur_Zielarchitektur.md
+│       └── Glossary.md
+├── mermaid/
+│   ├── generate-diagrams.sh
+│   ├── flows/
+│   │   ├── user-login-flow.mmd
+│   │   ├── report-generation-flow.mmd
+│   │   └── ...
+├── examples/
+│   ├── saga-runner.ts
+│   ├── eventbus.ts
+│   └── *.test.ts
+</code></pre>
+
+
 ## 📐 Architekturebenen (Visualisiert)
 
 ![Architekturübersicht](./mermaid/overviewlayers.png)

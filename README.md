@@ -8,18 +8,6 @@ Willkommen zur technischen Übersicht unserer Zielarchitektur. Dieses Repository
 
 ## Für Fragen oder neue Ideen bitte issue melden, damit wir alles sauber dokumentiert haben können.
 
-
-
-## Ziel & Struktur
-
-Ziel ist es, eine robuste, wartbare und flexibel erweiterbare Softwarelösung zu schaffen, die folgende Eigenschaften erfüllt:
-
-- **Modular** aufgebaut (Microservice-Prinzipien)
-- **Domain-Driven** konzipiert (Bounded Contexts)
-- **Event-Driven** gesteuert (interne Kommunikation über Eventbus)
-- **Policy- und Rollenbasiert** (feingranulare Zugriffssteuerung)
-- **Skalierbar & Cloud-fähig** (CI/CD & automatisierte Deployments)
-
 ---
 
 <pre><code>
@@ -73,21 +61,6 @@ Ziel ist es, eine robuste, wartbare und flexibel erweiterbare Softwarelösung zu
 
 ## 📐 Architekturebenen (Visualisiert)
 
-![Architekturübersicht](./mermaid/overviewlayers.png)
-
-> Eine detaillierte Version ist unter `./mermaid/overviewlayers.mmd` zu finden.
-
----
-
-## 📁 Dokumentationsstruktur
-
-| Bereich | Beschreibung |
-|--------|--------------|
-| `mermaid/` | Alle Mermaid-Diagramme (technische Flows, Layer, Prozesse etc.) |
-| `docs/` | Markdown-Dateien zu Layern, Policies, Services, Security etc. |
-| `glossary/` | Technische Begriffsdefinitionen (`GLOSSARY.md`) |
-| `faq/` | Antworten auf häufige technische Fragen (`00_FAQ_Zur_Zielarchitektur.md`) |
-
 ---
 
 ## 🧩 Enthaltene Kernkonzepte
@@ -101,17 +74,17 @@ Ziel ist es, eine robuste, wartbare und flexibel erweiterbare Softwarelösung zu
 
 ---
 
-## 🔍 Einstieg für Reviewer
+##  Einstieg für Reviewer
 
 Wenn Sie neu in dieses Projekt einsteigen, empfehlen wir folgende Reihenfolge:
 
-1. [📘 `overviewlayers.mmd`](./mermaid/overviewlayers.mmd)  
+1. [ `overviewlayers.mmd`](./mermaid/overviewlayers.mmd)  
    Erste Übersicht der gesamten Architektur
 
-2. [📄 `00_FAQ_Zur_Zielarchitektur.md`](docs/Fragen und Antworten/FAQ_Zur_Zielarchitektur.md)  
+2. [ `FAQ_Zur_Zielarchitektur.md`](docs/Fragen und Antworten/FAQ_Zur_Zielarchitektur.md)  
    Antworten auf typische Fragen von Dev & Management
 
-3. [📚 `GLOSSARY.md`](./docs/Fragen%20und%20Antworten/Glossary.md)  
+3. [ `GLOSSARY.md`](./docs/Fragen%20und%20Antworten/Glossary.md)  
    Begriffsklärungen & technische Definitionen
 
 ---

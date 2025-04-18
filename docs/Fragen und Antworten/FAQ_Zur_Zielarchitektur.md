@@ -324,4 +324,48 @@ Ja, die MCP-Schnittstelle ist entkoppelt und wird nur bei Bedarf aktiviert. Für
 
 ---
 
-**Stand:** 17. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.
+# Ergänzungen für FAQ_Zur_Zielarchitektur.md am 18. April 2025  
+
+
+### 1. Eventstore & Replay
+**Fehlt:** Kein Hinweis, ob Events persistent gespeichert und später erneut abgespielt werden können.  
+**Empfehlung:**  
+- Beispiel: „Bei Auditfällen können alle relevanten Events über den EventStore erneut abgespielt werden, um den Zustand eines Falles zu rekonstruieren.“
+
+### 2. Orchestrierungsstrategie (Saga vs. StateMachine)
+**Fehlt:** Es wird nicht zwischen orchestration-based (Saga) und choreography-based Flows unterschieden.  
+**Empfehlung:**  
+- Beispiel: „Komplexe Prozesse (z. B. Löschauftrag) werden orchestration-basiert mit Saga-Definitionen gesteuert, einfache Tasks laufen als rein eventgesteuerte Flows.“
+
+### 3. Löschen & Soft-Delete-Strategie
+**Fehlt:** Kein Hinweis auf GDPR-konformes Löschen oder Soft-Delete-Handling.  
+**Empfehlung:**  
+- Beispiel: „Auftragsdaten werden initial als ‚gelöscht‘ markiert und nach 30 Tagen physisch entfernt. Zwischenzeitlich sind sie nur für Admins sichtbar.“
+
+### 4. Audit Trail
+**Fehlt:** Kein Audit-Service oder Hinweis auf Revisionssicherheit.  
+**Empfehlung:**  
+- Beispiel: „Jede Änderung wird mit User-ID, Timestamp und Kontext protokolliert und kann im Audit-Viewer rekonstruiert werden.“
+
+### 5. Load Balancer & Skalierbarkeit
+**Fehlt:** Load-Balancing auf API- oder Serviceebene ist nicht thematisiert.  
+**Empfehlung:**  
+- Beispiel: „Das Gateway verteilt Requests automatisch auf skalierte Service-Instanzen via internen Load Balancer.“
+
+### 6. Systemgrenzen & externe APIs
+**Fehlt:** Wo endet das System? Was ist intern, was wird über externe APIs konsumiert?  
+**Empfehlung:**  
+- Beispiel: „Drittanbieter wie Behördenportale werden über gesicherte Outbound-APIs angebunden, z. B. für Dokumentenprüfung.“
+
+### 7. Datenmodell-Validierung
+**Fehlt:** Keine Erwähnung, wie Felder/Objekte auf Gültigkeit geprüft werden (FluentValidation, JSON Schema etc.)  
+**Empfehlung:**  
+- Beispiel: „Jede eingehende Anfrage wird gegen ein Validierungsschema geprüft, bevor sie weiterverarbeitet wird.“
+
+### 8. Domain-Strategie (z. B. Context Map)
+**Fehlt:** Wie genau Bounded Contexts umgesetzt werden – inkl. Trennung von Responsibility.  
+**Empfehlung:**  
+- Beispiel: „Jeder Kontext (Visa, Move, Housing) ist logisch, technisch und datenseitig entkoppelt.“
+
+
+**Stand:** 18. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.

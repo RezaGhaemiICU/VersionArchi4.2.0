@@ -141,6 +141,23 @@ Die technische Brücke zwischen unserem System und der MCP-Schnittstelle. Ermög
 Modul zur Integration von MCP-Agenten in unser bestehendes Gateway, mit Authentifizierung, Logging und Policy-Prüfung.
 
 
+# Glossar – Erweiterungen am 18.04.2025
+
+Diese Begriffe ergänzen das bestehende Glossar für die AiCUnet Architektur.
+
+| Begriff                  | Beschreibung |
+|--------------------------|--------------|
+| **DLQ (Dead Letter Queue)** | Warteschlange für Events, die mehrfach fehlgeschlagen sind. Dient zur Analyse und späterer Wiederholung. |
+| **Retry-Mechanismus**      | Automatisches Wiederholen von fehlgeschlagenen Requests mit Delay & MaxAttempts. |
+| **Soft Delete / Recycle Bin** | Temporäres Löschen von Datensätzen, die bei Bedarf wiederhergestellt werden können. |
+| **Audit Trail / Protokollierung** | Nachvollziehbare Speicherung aller Systemaktionen mit UserID, Timestamp etc. |
+| **Fallback-Strategien** | Maßnahmen zur Stabilisierung bei Fehlern, z. B. alternative Services, Graceful Degradation. |
+| **Load Balancer** | Verteilt eingehende Anfragen auf mehrere Instanzen eines Services. Ermöglicht Skalierung. |
+| **EventStore & Replay** | Ermöglicht Speicherung und erneutes Abspielen vergangener Events für Debugging oder Audit. |
+| **Saga (Coordinator)** | Kontrolliert den Ablauf verteilter Transaktionen, inkl. Kompensation bei Fehlern. |
+| **Bounded Context** | Klar definierter Bereich einer Domain mit eigener Sprache, Modellen und Services. |
+
+
 ## Hinweis  
 Diese Begriffe sind integraler Bestandteil unserer Architekturstrategie. Die klare Definition dieser Begriffe hilft dabei, technische Konzepte verständlich zu machen.
 **Stand:** 17. April 2025 – Dieses Dokument wird laufend aktualisiert. Vorschläge oder offene Fragen bitte als Issue im Repository melden.

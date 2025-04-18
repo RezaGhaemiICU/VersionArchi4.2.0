@@ -2,7 +2,15 @@
 
 Willkommen zur technischen Übersicht unserer Zielarchitektur. Dieses Repository dient als zentrale Sammlung aller relevanten Informationen rund um unsere modulare, skalierbare und zukunftssichere Plattformstruktur.
 
-## 🔧 Ziel & Struktur
+
+## Da sich viele Informationen derzeit ändern, wird diese README-Datei nicht als gültig betrachtet.
+
+
+## Für Fragen oder neue Ideen bitte issue melden, damit wir alles sauber dokumentiert haben können.
+
+
+
+## Ziel & Struktur
 
 Ziel ist es, eine robuste, wartbare und flexibel erweiterbare Softwarelösung zu schaffen, die folgende Eigenschaften erfüllt:
 

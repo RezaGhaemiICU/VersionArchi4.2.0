@@ -1,9 +1,0 @@
-flowchart TD
-  HR[HR erstellt Antrag]
-  VALIDATE[System validiert Eingaben]
-  EVENT1["Event: AntragErstellt"]
-  SERVICE3["Service 3: Audit speichern + sendet DokumentGeprüft"]
-  EVENT2["Event: DokumentGeprüft"]
-  SERVICE5["Service 5: startet Workflow"]
-
-  HR --> VALIDATE --> EVENT1 --> SERVICE3 --> EVENT2 --> SERVICE5

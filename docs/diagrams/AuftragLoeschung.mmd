@@ -1,0 +1,39 @@
+sequenceDiagram
+    autonumber
+    participant User
+    participant Frontend
+    participant Gateway
+    participant ExecutionService
+    participant AuftragService
+    participant RecycleBinService
+    participant EventBus
+    participant DLQ
+    participant Admin
+
+    User->>Frontend: Klick auf „Auftrag löschen“
+    Frontend->>Gateway: DELETE /auftrag/:id
+    Gateway->>ExecutionService: deleteAuftrag(id)
+
+    ExecutionService->>EventBus: emit auftrag.delete.requested
+    Note right of EventBus: Asynchrone Weiterleitung
+
+    EventBus->>AuftragService: Event empfangen
+    AuftragService->>AuftragService: Status = "PENDING_DELETE"
+
+    ExecutionService->>AuftragService: checkDependencies(id)
+
+    alt Keine Abhängigkeiten
+        AuftragService-->>RecycleBinService: SoftDelete Auftrag
+        RecycleBinService->>RecycleBinService: Startet interner Timer (7 Tage)
+        Note over RecycleBinService: Auto-Löschung nach Ablauf
+    else Abhängigkeiten vorhanden
+        ExecutionService->>Frontend: Rückmeldung: "Löschen nicht möglich"
+    end
+
+    alt Fehler beim Löschen
+        ExecutionService->>EventBus: emit auftrag.delete.failed
+        EventBus->>DLQ: Speichern mit Fehlerdetails
+        DLQ->>Admin: E-Mail mit Fehlerbericht
+    end
+
+    ExecutionService->>Frontend: UI Feedback (neutral)

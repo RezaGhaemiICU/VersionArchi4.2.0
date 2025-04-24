@@ -1,0 +1,24 @@
+flowchart TD
+  subgraph "Event Bus (Broadcasting)"
+    A1[User registriert sich] --> B1((user.registered Event))
+    B1 --> C1[Benachrichtigungsdienst sendet Willkommensmail]
+    B1 --> D1[Analytics-Dienst speichert Nutzerinfo]
+    B1 --> E1[CRM aktualisiert Kundenliste]
+  end
+
+  subgraph "Execution Service (Orchestrierung)"
+    A2[Nutzer beantragt Service-Löschung] --> B2[Execution Service startet Prozess]
+    B2 --> C2["Rechnung prüfen(Billing Service)"]
+    C2 --> D2["Zugriffsrechte entfernen (Access Service)"]
+    D2 --> E2[Benachrichtigung senden]
+    E2 --> F2[Status: Erfolgreich]
+    C2 -.->|Fehler| G2[Retry oder RecycleBin]
+    D2 -.->|Fehler| G2
+    E2 -.->|Fehler| G2
+  end
+
+  classDef broadcast fill:#F3F4F6,stroke:#60A5FA;
+  classDef orchestrator fill:#FDF2F8,stroke:#EC4899;
+
+  class A1,B1,C1,D1,E1 broadcast;
+  class A2,B2,C2,D2,E2,F2,G2 orchestrator;

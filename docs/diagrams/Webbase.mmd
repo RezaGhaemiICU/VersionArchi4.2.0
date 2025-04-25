@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Frontend
+    participant Backend
+    participant ServiceA
+
+    %% User navigates to home page
+    User->>Browser: Startet Web App (Home)
+    Browser->>Frontend: Lade Basis-Assets (HTML, main.js)
+    Note right of Frontend: Nur Shell + Menü sichtbar
+
+    %% User klickt z. B. auf „Profil anzeigen“
+    User->>Frontend: Klickt auf "Profil anzeigen"
+    Frontend->>Browser: Lazy load /pages/ProfilePage.js
+    Browser->>Frontend: Rendert Profil-UI
+
+    %% Erst jetzt Datenanfrage
+    Frontend->>Backend: GET /api/user/profile
+    Backend->>ServiceA: Hole Profildaten
+    ServiceA-->>Backend: Rückgabe Profildaten
+    Backend-->>Frontend: JSON Antwort
+    Frontend-->>Browser: Zeigt Profil-Info an
+
+    %% Später z. B. Klick auf Analytics
+    User->>Frontend: Klickt auf "Analytics"
+    Frontend->>Browser: Lazy load /pages/Analytics.js
+    Frontend->>Backend: Anfrage nur bei Bedarf

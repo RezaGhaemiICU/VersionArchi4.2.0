@@ -1,0 +1,34 @@
+sequenceDiagram
+    %% === Teilnehmer ===
+    participant UI
+    participant Gateway
+    participant ExecutionService
+    participant DocumentService
+    participant StatusService
+    participant NotificationService
+
+    %% === Initialer Request ===
+    UI->>Gateway: Upload Dokument
+    Note right of Gateway: Gateway prüft AuthN/AuthZ und leitet Request weiter (via mTLS)
+
+    Gateway->>ExecutionService: forwardRequest(DokumentUpload)
+    Note right of ExecutionService: Empfang des Requests\nZentrale Kontrolle und Logging
+
+    %% === Dokumentprüfung über Orchestrator ===
+    ExecutionService->>DocumentService: validate(Dokument) 
+    Note right of DocumentService: Validierung erfolgt nur über ExecutionService\n→ kein direkter Zugriff von außen
+
+    DocumentService-->>ExecutionService: Resultat: DokumentGeprueft
+    Note right of ExecutionService: Trigger basiert auf Ergebnis\n→ nächste Regel wird geprüft
+
+    %% === Weiterer Prozessfluss ===
+    ExecutionService->>StatusService: updateStatus("validiert") 
+    Note right of StatusService: Statusänderungen nur auf zentrale Anweisung
+
+    ExecutionService->>NotificationService: notifyHR("Dokument erfolgreich geprüft") 
+    Note right of NotificationService: Automatisierte, gesteuerte Benachrichtigung
+
+    %% === Sicherheit und Kontrolle ===
+    Note over Gateway, NotificationService: Alle Verbindungen durch mTLS abgesichert\nZero Trust: Kein direkter Zugriff zwischen Services
+
+    Note over ExecutionService: ExecutionService ist der einzige Orchestrator\nEr empfängt Events, prüft Regeln und steuert Folgeaktionen

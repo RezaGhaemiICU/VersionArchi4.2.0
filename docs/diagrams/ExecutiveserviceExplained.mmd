@@ -1,0 +1,43 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+    subgraph UserAction [User Action]
+        A1[User initiates a Complex Request]
+    end
+    A1 --> G1[Gateway Layer]
+    subgraph ExecService [Executive Service - Orchestrator]
+        E1["Validiert Eingangsdaten (Technisch)"]
+        E2[Prüft notwendige Services]
+        E3[Startet koordinierte Events]
+        E4[Überwacht Status jeder Service-Antwort]
+        E5[Fehlerhandling & Retry-Logik]
+    end
+    G1 --> E1
+    E1 --> E2
+    E2 --> E3
+    subgraph Services [Koordinierte Microservices]
+        S1[Service A – Datenabruf]
+        S2[Service B – Prüfung]
+        S3[Service C – Speicherung]
+    end
+    E3 -->|Sendet Event| S1
+    S1 -->|Antwort Event| E4
+    E4 -->|Startet nächsten Step| S2
+    S2 -->|Antwort Event| E4
+    E4 -->|Startet nächsten Step| S3
+    S3 -->|Antwort Event| E4
+    E4 --> E5
+    E5 -->|Bei Erfolg| R1[Result zurück an Gateway]
+    E5 -->|Bei Fehler| DLQ[Dead Letter Queue]
+    R1 --> UI[User Feedback]
+    subgraph AsyncServices [Async Side-Services via EventBus]
+        L1[Logging Service]
+        N1[Notification Service]
+        A1[Analytics Service]
+    end
+    E3 -->|Parallel Event Trigger| L1
+    E3 -->|Parallel Event Trigger| N1
+    E3 -->|Parallel Event Trigger| A1

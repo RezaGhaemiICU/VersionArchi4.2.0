@@ -1,0 +1,21 @@
+---
+config:
+  theme: redux
+  look: handDrawn
+---
+flowchart TD
+    Start(["Execution Service startet Flow"]) --> Decision{"Flow Rule: parallele Prüfungen erlaubt?"}
+    Decision -- Ja --> A1["Service: AddressCheck"] & A2["Service: IdentityCheck"] & A3["Service: TaxIDCheck"] & A4["Service: VisaTypeEligibility"]
+    A1 --> Join1["Aggregator: Prüfungsergebnisse sammeln"] & A2
+    A2 --> Join1 & A3
+    A3 --> Join1 & A4
+    A4 --> Join1 & Join1
+    Decision -- Nein --> A1
+    Join1 --> Validation["Aggregator prüft: alles vorhanden?"]
+    Validation --> NextStep{"Flow Rule: weitere Services nötig?"}
+    NextStep -- Ja --> B1["Service: RiskScoring"] & B2["Service: ExternalValidation (GovAPI)"]
+    B1 --> FinalJoin["Aggregator: FinalResult erzeugen"]
+    B2 --> FinalJoin
+    FinalJoin --> End(["Flow abgeschlossen"])
+    NextStep -- Nein --> End
+    A1 --> n1["Untitled Node"]
